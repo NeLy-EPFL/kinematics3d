@@ -1,0 +1,53 @@
+#!/usr/bin/env python
+""" Script to run anipose.
+    Example use:
+    >>> python run_anipose --txt_dir directories.txt --filter_2d --triangulate
+
+    Note that if such txt does not exist you first need to launch run_deeplabcut to create the file.
+    Check run_deeplabcut for details.
+"""
+
+import argparse
+from kinematics3d.anipose_pipeline import run_pipeline_from_txt
+
+
+def parse_args():
+    """ Argument parser. """
+    parser = argparse.ArgumentParser(
+        description='Pipeline to automatize Anipose run',
+        formatter_class=(
+            lambda prog:
+            argparse.HelpFormatter(prog, max_help_position=50)
+        ),
+    )
+    parser.add_argument(
+        '-txt',
+        '--txt_dir',
+        type=str,
+        default=None,
+        help='Input text directory',
+    )
+    parser.add_argument(
+        '--filter_2d',
+        default=False,
+        action='store_true',
+        help='Filter 2D poses',
+    )
+    parser.add_argument(
+        '--triangulate',
+        default=False,
+        action='store_true',
+        help='Triangulate 2D poses',
+    )
+    return parser.parse_args()
+
+
+if __name__ == '__main__':
+
+    args = parse_args()
+
+    run_pipeline_from_txt(
+        txt_dir=args.txt_dir,
+        filter_2d=args.filter_2d,
+        triangulate=args.triangulate,
+    )

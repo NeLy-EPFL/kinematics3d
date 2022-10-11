@@ -1,0 +1,130 @@
+#!/usr/bin/env python
+""" Script to animate 3D poses.
+    >>> animate_3d --pose_path pose3d.h5 --export_path pose3d_side --video --plot
+"""
+import argparse
+import pickle
+import numpy as np
+import pandas as pd
+
+from kinematics3d.visualization import animate_3d_points, plot_3d_points
+
+
+def parse_args():
+    """ Argument parser. """
+    parser = argparse.ArgumentParser(
+        description='Pipeline to automatize DLC run',
+        formatter_class=(
+            lambda prog:
+            argparse.HelpFormatter(prog, max_help_position=50)
+        ),
+    )
+    parser.add_argument(
+        '-p',
+        '--pose_path',
+        type=str,
+        default=None,
+        help='Path of 3D pose',
+    )
+    parser.add_argument(
+        '-e',
+        '--export_path',
+        type=str,
+        default=None,
+        help='Path to export the video',
+    )
+    parser.add_argument(
+        '--video',
+        default=False,
+        action='store_true',
+        help='Shows a static plot',
+    )
+    parser.add_argument(
+        '--plot',
+        default=False,
+        action='store_true',
+        help='Shows a static plot',
+    )
+    parser.add_argument(
+        '--n_frames',
+        type=int,
+        default=None,
+        help='Number of frames the video will include',
+    )
+    return parser.parse_args()
+
+
+if __name__ == '__main__':
+    """ Main. """
+    args = parse_args()
+
+    output_fname = args.pose_path
+
+    if output_fname.endswith('csv'):
+        points3d = pd.read_csv(output_fname)
+    else:
+        with open(output_fname, 'rb') as f: points3d = pickle.load(f)
+
+    joints = [
+        'thorax_coxa_L',
+        'coxa_femur_L',
+        'femur_tibia_L',
+        'tibia_tarsus_L',
+        'claw_L',
+        'ant_orb_brist_L',
+        'post_vert_brist_L',
+        'base_anten_L',
+        'tip_anten_L',
+        'ant_orb_brist_R',
+        'post_vert_brist_R',
+        'base_anten_R',
+        'tip_anten_R',
+        'thorax_wing_R',
+        'thorax_midpoint_tether',
+        'thorax_wing_L',
+        'labellum_tip',
+        'thorax_coxa_R',
+        'coxa_femur_R',
+        'femur_tibia_R',
+        'tibia_tarsus_R',
+        'claw_R',
+        'dorsal_humeral_L',
+        'ventral_humeral_L',
+        'dorsal_humeral_R',
+        'ventral_humeral_R',
+        #'maxillary_palp_R',
+        #'maxillary_palp_L',
+        ]
+
+    KEY_POINTS_DICT = {
+        'LF': (np.arange(0, 5), 'solid'),
+        'L Face': (np.arange(5, 7), '1'),
+        'L Ant': (np.arange(7, 9), 'o'),
+        'L humeral': (np.arange(22,24), '.'),
+        'thorax': (np.arange(13, 16), '1'),
+        'labellum': (np.arange(16, 17), 'o'),
+        'R humeral': (np.arange(24,26), '.'),
+        'R Ant': (np.arange(11, 13), 'o'),
+        'R Face': (np.arange(9, 11), '1'),
+        'RF': (np.arange(17, 22), 'solid'),
+        # 'max_palp': (np.arange(22, 24), 'o')
+    }
+
+    pts = np.zeros((points3d.shape[0], len(joints), 3))
+
+    for joint_num, joint in enumerate(joints):
+
+        pts[:, joint_num, 0] = points3d[f'{joint}_x']
+        pts[:, joint_num, 1] = points3d[f'{joint}_y']
+        pts[:, joint_num, 2] = points3d[f'{joint}_z']
+
+
+    if args.plot:
+        plot_3d_points(pts, KEY_POINTS_DICT, t=10, export_path=args.export_path)
+
+    if args.video:
+        animate_3d_points(
+            pts,
+            KEY_POINTS_DICT,
+            args.export_path,
+            frame_no=args.n_frames if args.n_frames is not None else pts.shape[0])

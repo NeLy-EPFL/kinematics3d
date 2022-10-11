@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+"""
+Visualize the location of the cameras from the calibration file.
+    Usage:
+    >>> viz_cam_locations -cp ../calibration/calibration.toml
+"""
+from pathlib import Path
+import argparse
+
+from kinematics3d import utils
+from kinematics3d.camera_pose_viz import CameraPoseVisualizer
+
+
+def parse_args():
+    """ Argument parser. """
+    parser = argparse.ArgumentParser(
+        description='Pipeline to visualize camera positions',
+    )
+    parser.add_argument(
+        '-cp',
+        '--calib_path',
+        type=str,
+        default=None,
+        help='Path of calibration file',
+    )
+    return parser.parse_args()
+
+
+if __name__ == '__main__':
+    args = parse_args()
+    output_fname = args.calib_path
+
+    # Load calibration file
+    calibration_file = utils.load_calibration(output_fname)
+    matrices = utils.get_cam_matrices(calibration_file)
+    colors = utils.get_color_list(number=len(matrices))
+    # argument : the minimum/maximum value of x, y, z
+    visualizer = CameraPoseVisualizer([-100, 100], [-100, 100], [0, 170])
+
+    # argument : extrinsic matrix, color, scaled focal length(z-axis length of frame body of camera
+    for i, (cam, cam_mat) in enumerate(matrices.items()):
+        visualizer.extrinsic2pyramid(cam_mat, color=colors[i], focal_len_scaled=15)
+
+    # visualizer.customize_legend(list_label=matrices.keys())
+    visualizer.show(title='Camera locations', export_path=output_fname.replace('toml', 'png'))

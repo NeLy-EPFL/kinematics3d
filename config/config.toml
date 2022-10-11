@@ -1,0 +1,122 @@
+project = 'gizem-220705'
+nesting = 2
+video_extension = 'mp4'
+
+[filter]
+enabled = true
+type = [ "viterbi"]
+score_threshold = 0.05
+n_back = 3
+medfilt = 0
+offset_threshold = 25
+spline = true
+multiprocessing = true
+
+[pipeline]
+videos_raw = "videos"
+calibration_videos = "/home/nely/tracking_anipose/kinematics3d/calibration"
+calibration_results = "/home/nely/tracking_anipose/kinematics3d/calibration"
+pose_2d = 'pose-2d'
+pose_2d_filter = 'pose-2d-filtered'
+pose_3d = 'pose-3d'
+pose_3d_ext = 'h5'
+
+[calibration]
+# checkerboard / charuco / aruco
+board_type = "charuco"
+# width and height of grid
+board_size = [7, 6]
+# number of bits in the markers, if aruco/charuco
+board_marker_bits = 4
+# number of markers in dictionary, if aruco/charuco
+board_marker_dict_number = 250
+# length of marker side
+board_marker_length = 0.225 # mm
+# If charuco or checkerboard, square side length
+board_square_side_length = 0.300 # mm
+animal_calibration = true
+fisheye = false
+calibration_init = '/home/nely/tracking_anipose/kinematics3d/calibration/calibration_init.toml'
+
+[manual_verification]
+manually_verify = false
+
+[labeling]
+scheme =[
+ ['thorax_coxa_L', 'coxa_femur_L', 'femur_tibia_L', 'tibia_tarsus_L', 'claw_L'],
+ ['thorax_coxa_R', 'coxa_femur_R', 'femur_tibia_R', 'tibia_tarsus_R', 'claw_R'],
+ ['post_vert_brist_L', 'ant_orb_brist_L', 'base_anten_L', 'tip_anten_L', 'maxillary_palp_L', 'labellum_tip'],
+ ['post_vert_brist_R', 'ant_orb_brist_R', 'base_anten_R', 'tip_anten_R', 'maxillary_palp_R', 'labellum_tip'],
+ ['thorax_midpoint_tether', 'thorax_wing_L', 'ant_notopleural_L', 'dorsal_humeral_L', 'ventral_humeral_L'],
+ ['thorax_midpoint_tether', 'thorax_wing_R', 'ant_notopleural_R', 'dorsal_humeral_R', 'ventral_humeral_R'],
+]
+
+[triangulation]
+triangulate = true
+cam_regex = 'camera_([0-9])'
+axes = [['y', 'dorsal_humeral_R', 'dorsal_humeral_L'], ['z', 'ventral_humeral_L', 'dorsal_humeral_L']]
+reference_point = 'thorax_midpoint_tether'
+cam_align = "3"
+ransac = false
+# make true to filter 3d poses
+optim = true
+constraints = [
+ ['thorax_coxa_L', 'thorax_coxa_R'],
+ ['thorax_coxa_L', 'coxa_femur_L'],
+ ['coxa_femur_L', 'femur_tibia_L'],
+ ['femur_tibia_L', 'tibia_tarsus_L'],
+ ['thorax_coxa_R', 'coxa_femur_R'],
+ ['coxa_femur_R', 'femur_tibia_R'],
+ ['femur_tibia_R', 'tibia_tarsus_R'],
+ ['post_vert_brist_L', 'ant_orb_brist_L'],
+ ['ant_orb_brist_L', 'base_anten_L'],
+ ['base_anten_L', 'tip_anten_L'],
+ ['post_vert_brist_R', 'ant_orb_brist_R'],
+ ['ant_orb_brist_R', 'base_anten_R'],
+ ['base_anten_R', 'tip_anten_R'],
+ ['base_anten_R', 'base_anten_L'],
+ ['thorax_midpoint_tether', 'thorax_wing_L'],
+ ['thorax_midpoint_tether', 'thorax_wing_R'],
+]
+constraints_weak = [
+ ['tibia_tarsus_L', 'claw_L'],
+ ['tibia_tarsus_R', 'claw_R'],
+ ['thorax_wing_L', 'dorsal_humeral_L'],
+ ['dorsal_humeral_L', 'ventral_humeral_L'],
+ ['thorax_wing_R', 'dorsal_humeral_R'],
+ ['dorsal_humeral_R', 'ventral_humeral_R'],
+ ['ant_orb_brist_R', 'labellum_tip'],
+ ['ant_orb_brist_L', 'labellum_tip'],
+]
+# Strength of enforcement of the smoothing constraints.
+scale_smooth = 1.5 #2.
+# Strength of enforcement of the spatial constraints.
+scale_length = 2.5 #3
+scale_length_weak = 0.75
+reproj_error_threshold = 4 #5
+# Score below which labels are determined erroneous for the 3D filters.
+score_threshold = 0.4
+n_deriv_smooth = 3
+
+
+[cameras.1]
+ROI_FULL = [ 0, 0, 1920, 1200,]
+offset = [480, 360, 1440, 840]
+
+[cameras.2]
+ROI_FULL = [ 0, 0, 1920, 1200,]
+offset = [480, 360, 1440, 840]
+
+[cameras.3]
+ROI_FULL = [ 0, 0, 1920, 1200,]
+offset = [480, 360, 1440, 840]
+
+[cameras.4]
+ROI_FULL = [ 0, 0, 1920, 1200,]
+offset = [480, 360, 1440, 840]
+
+[cameras.5]
+ROI_FULL = [ 0, 0, 1920, 1200,]
+offset = [480, 360, 1440, 840]
+
+

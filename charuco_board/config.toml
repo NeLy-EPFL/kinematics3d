@@ -1,0 +1,23 @@
+project = 'gizem-220705'
+# not used
+# model_folder = 'autoencoder_model'
+nesting = 4
+video_extension = 'mp4'
+
+[calibration]
+# checkerboard / charuco / aruco
+board_type = "charuco"
+# width and height of grid
+board_size = [7, 6]
+# number of bits in the markers, if aruco/charuco
+board_marker_bits = 4
+# number of markers in dictionary, if aruco/charuco
+board_marker_dict_number = 250
+# length of marker side
+board_marker_length = 0.225 # mm
+# If charuco or checkerboard, square side length
+board_square_side_length = 0.300 # mm
+animal_calibration = false
+fisheye = false
+#calibration_init = 'calibration/calibration_init.toml'
+

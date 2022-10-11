@@ -1,0 +1,96 @@
+#!/usr/bin/env python
+""" Script to run deeplabcut.
+    Example usage:
+    - If you want to create a directory txt file then
+    >>> run_deeplabcut --date_lower 220424 --date_upper 220525 --genotype aJO-GAL4xUAS-CsChr --export_path dirs.txt --include Beh RLF
+    - If you want to run DLC, just append --pose2d to the above command
+    - If you have the txt file ready, then you can skip the specs and run:
+    >>> run_deeplabcut --txt_dir dirs.txt --pose2d
+"""
+import argparse
+from kinematics3d.utils import load_txt
+from kinematics3d.pose2d import get_folder_names, get_video_paths, run_dlc
+
+
+def parse_args():
+    """ Argument parser. """
+    parser = argparse.ArgumentParser(
+        description='Pipeline to automatize DLC run',
+        formatter_class=(
+            lambda prog:
+            argparse.HelpFormatter(prog, max_help_position=50)
+        ),
+    )
+    parser.add_argument(
+        '-txt',
+        '--txt_dir',
+        type=str,
+        default=None,
+        help='Directory of the txt file that contains exp paths',
+    )
+    parser.add_argument(
+        '-du',
+        '--date_upper',
+        type=int,
+        default=None,
+        help='Finish date of experiments to include',
+    )
+    parser.add_argument(
+        '-dl',
+        '--date_lower',
+        type=int,
+        default=None,
+        help='Start date of experiments to include',
+    )
+    parser.add_argument(
+        '--genotype',
+        type=str,
+        default='',
+        help='Genotype to include',
+    )
+    parser.add_argument(
+        '--include',
+        nargs='*',
+        type=str,
+        default=[''],
+        help='Types of experiment to be included in the txt file',
+    )
+    parser.add_argument(
+        '--export_path',
+        type=str,
+        default=None,
+        help='Output directory where directories will be saved',
+    )
+    parser.add_argument(
+        '--pose2d',
+        default=False,
+        action='store_true',
+        help='Runs DLC to get 2D pose estimation',
+    )
+    return parser.parse_args()
+
+
+if __name__ == '__main__':
+    """ Main. """
+    args = parse_args()
+
+    if args.txt_dir is None:
+        exp_dirs = get_folder_names(
+            date_upper=args.date_upper,
+            date_lower=args.date_lower,
+            genotype=args.genotype,
+            exps_to_include=args.include,
+            export_path=args.export_path)
+    else:
+        exp_dirs = load_txt(args.txt_dir)
+
+    if args.pose2d:
+        for cam_id in range(1, 6):
+            print('Camera ',cam_id)
+            all_dict = []
+            for exp in exp_dirs:
+                path_dict = get_video_paths(exp, camera_id=cam_id, export_path=None)
+                all_dict = [*all_dict, *path_dict]
+
+            # We can provide the paths either from the txt or on the run
+            run_dlc(camera_id=cam_id, paths=all_dict, show_kp=False)
