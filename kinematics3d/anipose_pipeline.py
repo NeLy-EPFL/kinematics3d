@@ -69,7 +69,7 @@ def check_calib_exists(main_path: Path):
     logging.info('Config file is updated!')
 
 
-def check_pose3d_exists(main_path: Path):
+def check_folder_exists(main_path: Path, folder_name: str):
     """ Anipose does not run triangulation if a file with the same name already exists.
     This function checks if pose 3d exists in the main directory,
     if so deletes the existing one.
@@ -80,15 +80,22 @@ def check_pose3d_exists(main_path: Path):
         Path where anipose pipeline runs.
         Usually under the experiment directory,
         e.g. /mnt/nas2/GO/7cam/220710_aDN2-GAL4xUAS-CsChr/Fly001
+    folder_name: str
+        Folder name that anipose uses to store data, e.g., pose_2d
     """
-    config_data = toml.load(main_path / 'config.toml')
-    pose3d_name = config_data['pipeline']['pose_3d']
-    pose3d_dirs = main_path.rglob(f'*/{pose3d_name}')
+    if folder_name not in ['pose_3d', 'pose_2d', 'pose_2d_filter']:
+        raise ValueError(
+    "Folder name {} is invalid! It should be either of pose_3d, pose_2d, pose_2d_filter".format(folder_name)
+    )
 
-    if pose3d_dirs:
-        for pose3d_dir_name in pose3d_dirs:
-            logging.info(f'Pose 3d exists, deleting the directory {pose3d_dir_name.as_posix()}')
-            shutil.rmtree(pose3d_dir_name)
+    config_data = toml.load(main_path / 'config.toml')
+    pose_name = config_data['pipeline'][folder_name]
+    pose_dirs = main_path.rglob(f'*/{pose_name}')
+
+    if pose_dirs:
+        for pose_dir_name in pose_dirs:
+            logging.info(f'Pose folder exists, deleting the directory {pose_dir_name.as_posix()}')
+            shutil.rmtree(pose_dir_name)
 
 
 def anipose_pipeline(
@@ -144,5 +151,5 @@ def run_pipeline_from_txt(txt_dir: str, remove_pose3d: bool = False, **kwargs):
         check_config_exists(p_name)
         check_calib_exists(p_name)
         if remove_pose3d:
-            check_pose3d_exists(p_name)
+            check_folder_exists(p_name, folder_name='pose_3d')
         anipose_pipeline(p_name, **kwargs)

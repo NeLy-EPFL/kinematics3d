@@ -89,7 +89,8 @@ def get_folder_names(
 def get_video_paths(
         input_dir: str,
         camera_id: int,
-        export_path: str = None) -> List:
+        export_path: str = None,
+        overwrite: bool = False) -> List:
     """ Writes paths of experimental folders in a txt file given.
 
     Parameters
@@ -102,6 +103,8 @@ def get_video_paths(
         Saves the directories in the path given
         NOTE: For now, I don't empty the text file so be sure to give an empty txt
         e.g. ./paths_rlf_cam3.txt
+    overwrite: bool
+        Overwrites the existing pose-2d.
     """
 
     path_list = []
@@ -123,7 +126,7 @@ def get_video_paths(
             path_list.append(video_path.as_posix() + '\n')
         else:
             dlc_path = pose_2d / f'camera_{camera_id}.h5'
-            if dlc_path.is_file():
+            if dlc_path.is_file() and not overwrite:
                 logging.info(f'{video_path} DLC exists! Skipping...')
                 continue
             else:
