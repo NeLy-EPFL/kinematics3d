@@ -5,6 +5,7 @@ from pathlib import Path
 import logging
 import shutil
 import subprocess
+import toml
 import numpy as np
 
 import kinematics3d
@@ -16,6 +17,7 @@ logging.basicConfig(
 
 CONFIG_PATH = Path(kinematics3d.__path__[0]).parents[0] / 'config'
 
+
 def check_config_exists(main_path: Path, overwrite: bool = True):
     """ Checks if config exists in the main directory, if not copies the default one.
 
@@ -24,20 +26,74 @@ def check_config_exists(main_path: Path, overwrite: bool = True):
     main_path : Path
         Path where anipose pipeline runs.
         Usually under the experiment directory,
-        e.g. /mnt/nas2/GO/7cam/220710_aDN2-GAL4xUAS-CsChr
+        e.g. /mnt/nas2/GO/7cam/220710_aDN2-GAL4xUAS-CsChr/Fly001
     overwrite : bool, optional
         If config exists and overwrite is True,
         then replaces the existing config with the default one, by default True
     """
     if not (main_path / 'config.toml').is_file() or overwrite:
-        logging.info(f'Copying default config into {main_path}')
+        logging.info(f'Copying default config from {CONFIG_PATH} into {main_path}')
         shutil.copy(CONFIG_PATH / 'config.toml', main_path / 'config.toml')
-    else:
-        return
+
+
+def check_calib_exists(main_path: Path):
+    """ Checks if calibration exists in the main directory, if not copies the default one.
+    After copying the calibration, then changes the directory in the config file.
+
+    Parameters
+    ----------
+    main_path : Path
+        Path where anipose pipeline runs.
+        Usually under the experiment directory,
+        e.g. /mnt/nas2/GO/7cam/220710_aDN2-GAL4xUAS-CsChr/Fly001
+    """
+    config_data = toml.load(main_path / 'config.toml')
+    calib_dir = config_data['pipeline']['calibration_results']
+
+    try:
+        shutil.copytree(calib_dir, main_path / 'calibration')
+    except FileExistsError:
+        logging.info('Removing the existing calibration file...')
+        shutil.rmtree(main_path / 'calibration')
+        shutil.copytree(calib_dir, main_path / 'calibration')
+
+    logging.info(f'Copying default calibration into {main_path}')
+
+    # Change calibration directory in the config file
+    config_data['pipeline']['calibration_results'] = (main_path / 'calibration').as_posix()
+    config_data['calibration']['calibration_init'] = (main_path / 'calibration/calibration_init.toml').as_posix()
+
+    f_open = open(main_path / 'config.toml', 'w')
+    toml.dump(config_data, f_open)
+    f_open.close()
+    logging.info('Config file is updated!')
+
+
+def check_pose3d_exists(main_path: Path):
+    """ Anipose does not run triangulation if a file with the same name already exists.
+    This function checks if pose 3d exists in the main directory,
+    if so deletes the existing one.
+
+    Parameters
+    ----------
+    main_path : Path
+        Path where anipose pipeline runs.
+        Usually under the experiment directory,
+        e.g. /mnt/nas2/GO/7cam/220710_aDN2-GAL4xUAS-CsChr/Fly001
+    """
+    config_data = toml.load(main_path / 'config.toml')
+    pose3d_name = config_data['pipeline']['pose_3d']
+    pose3d_dirs = main_path.rglob(f'*/{pose3d_name}')
+
+    if pose3d_dirs:
+        for pose3d_dir_name in pose3d_dirs:
+            logging.info(f'Pose 3d exists, deleting the directory {pose3d_dir_name.as_posix()}')
+            shutil.rmtree(pose3d_dir_name)
 
 
 def anipose_pipeline(
         main_dir: Path,
+        calibrate: bool = True,
         filter_2d: bool = True,
         triangulate: bool = True):
     """ Runs anipose pipeline. """
@@ -45,13 +101,15 @@ def anipose_pipeline(
     logging.info(f'Running anipose on {main_dir}')
     os.chdir(main_dir)
 
+    if calibrate:
+        subprocess.run(['anipose', 'calibrate'], check=True)
     if filter_2d:
         subprocess.run(['anipose', 'filter'], check=True)
     if triangulate:
         subprocess.run(['anipose', 'triangulate'], check=True)
 
 
-def run_pipeline_from_txt(txt_dir: str, **kwargs):
+def run_pipeline_from_txt(txt_dir: str, remove_pose3d: bool = False, **kwargs):
     """ Run Anipose pipeline from a txt file containing the directories.
         kwargs are the arguments for the anipose pipeline, such as filter_2d.
     """
@@ -65,23 +123,26 @@ def run_pipeline_from_txt(txt_dir: str, **kwargs):
     for line in open(txt_dir):
         p_name = Path(line.rstrip())
         parts = p_name.parts
-        if len(parts) < 6:
+        if len(parts) < 7:
             raise IndexError(
                 """
-                Directory should have at least 6 parts.
-                Example: ('/','mnt','nas','GO','7cam','220504_aJO-GAL4xUAS-CsChr')
+                Directory should have at least 7 parts.
+                Example: ('/','mnt','nas','GO','7cam','220504_aJO-GAL4xUAS-CsChr', 'Fly001')
                 """
             )
 
         # If child directory is given, we take the parent directory.
-        if "/" == parts[0]:
-            new_parts = parts[:6]
+        if parts[0] == "/":
+            new_parts = parts[:7]
         else:
-            raise ValueError(f"Directory {p} is faulty!\nPlease, check it again.")
+            raise ValueError(f"Directory {p_name} is faulty!\nPlease, check it again.")
 
         new_path = Path(*new_parts)
         path_list.append(new_path)
 
-    for p in np.unique(path_list):
-        check_config_exists(p)
-        anipose_pipeline(p, **kwargs)
+    for p_name in np.unique(path_list):
+        check_config_exists(p_name)
+        check_calib_exists(p_name)
+        if remove_pose3d:
+            check_pose3d_exists(p_name)
+        anipose_pipeline(p_name, **kwargs)
