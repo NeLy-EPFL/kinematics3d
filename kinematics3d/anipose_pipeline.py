@@ -93,18 +93,18 @@ def check_pose3d_exists(main_path: Path):
 
 def anipose_pipeline(
         main_dir: Path,
-        calibrate: bool = True,
         filter_2d: bool = True,
+        calibrate: bool = True,
         triangulate: bool = True):
     """ Runs anipose pipeline. """
 
     logging.info(f'Running anipose on {main_dir}')
     os.chdir(main_dir)
 
-    if calibrate:
-        subprocess.run(['anipose', 'calibrate'], check=True)
     if filter_2d:
         subprocess.run(['anipose', 'filter'], check=True)
+    if calibrate:
+        subprocess.run(['anipose', 'calibrate'], check=True)
     if triangulate:
         subprocess.run(['anipose', 'triangulate'], check=True)
 

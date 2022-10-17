@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """ Script to run anipose.
     Example use:
-    >>> python run_anipose --txt_dir directories.txt --filter_2d --triangulate
+    >>> python run_anipose --txt_dir dirs.txt --filter_2d --calibrate --triangulate --remove3d
 
     Note that if such txt does not exist you first need to launch run_deeplabcut to create the file.
     Check run_deeplabcut for details.
@@ -34,10 +34,22 @@ def parse_args():
         help='Filter 2D poses',
     )
     parser.add_argument(
+        '--calibrate',
+        default=False,
+        action='store_true',
+        help='Calibrate using the animal data',
+    )
+    parser.add_argument(
         '--triangulate',
         default=False,
         action='store_true',
         help='Triangulate 2D poses',
+    )
+    parser.add_argument(
+        '--remove3d',
+        default=False,
+        action='store_true',
+        help='Remove existing 3D poses',
     )
     return parser.parse_args()
 
@@ -49,5 +61,7 @@ if __name__ == '__main__':
     run_pipeline_from_txt(
         txt_dir=args.txt_dir,
         filter_2d=args.filter_2d,
+        calibrate=args.calibrate,
         triangulate=args.triangulate,
+        remove_pose3d=args.remove3d
     )
