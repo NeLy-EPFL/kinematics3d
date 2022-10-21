@@ -64,9 +64,3 @@ def trim_video(video_path, trim_from, trim_to, output_path):
     subprocess.call(
         ['ffmpeg', '-i', video_path, '-ss', trim_from, '-to', trim_to, '-c:v', 'copy', output_path]
     )
-
-
-def reduce_size(video_path, output_path):
-        subprocess.call(
-        ['ffmpeg', '-i', video_path, '-b', '800k', output_path]
-    )
