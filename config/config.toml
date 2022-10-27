@@ -78,8 +78,8 @@ constraints = [
  ['thorax_midpoint_tether', 'thorax_wing_R'],
 ]
 constraints_weak = [
- ['dorsal_humeral_R', 'thorax_coxa_R'],
- ['dorsal_humeral_L', 'thorax_coxa_L'],
+#  ['dorsal_humeral_R', 'thorax_coxa_R'],
+#  ['dorsal_humeral_L', 'thorax_coxa_L'],
  ['tibia_tarsus_L', 'claw_L'],
  ['tibia_tarsus_R', 'claw_R'],
  ['thorax_wing_L', 'dorsal_humeral_L'],
