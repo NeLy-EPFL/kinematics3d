@@ -51,6 +51,18 @@ def parse_args():
         default=None,
         help='Number of frames the video will include',
     )
+    parser.add_argument(
+        '--azim',
+        type=float,
+        default=0,
+        help='Azimuth angle of the camera',
+    )
+    parser.add_argument(
+        '--elev',
+        type=int,
+        default=20,
+        help='Elevation angle of the camera',
+    )
     return parser.parse_args()
 
 
@@ -120,11 +132,12 @@ if __name__ == '__main__':
 
 
     if args.plot:
-        plot_3d_points(pts, KEY_POINTS_DICT, t=10, export_path=args.export_path)
+        plot_3d_points(pts, KEY_POINTS_DICT, t=10, export_path=args.export_path, azim=args.azim, elev=args.elev)
 
     if args.video:
         animate_3d_points(
             pts,
             KEY_POINTS_DICT,
             args.export_path,
-            frame_no=args.n_frames if args.n_frames is not None else pts.shape[0])
+            frame_no=args.n_frames if args.n_frames is not None else pts.shape[0],
+            azim=args.azim, elev=args.elev)
