@@ -1,10 +1,10 @@
 """ Utils. """
+import csv
 import pandas as pd
 import numpy as np
 import toml
 import cv2
 from mycolorpy import colorlist as mcp
-
 
 def change_kp_names(hdf_path, replace_dict):
     """ Replaces the column names according to the given dictionary. """
@@ -41,8 +41,14 @@ def get_cam_matrices(calib):
         translation = np.array(calib[cam_name]['translation'])
 
         extrinsic_matrix[:3,:3] = rotation
-        extrinsic_matrix[:3,3] = translation 
+        extrinsic_matrix[:3,3] = translation
         extrinsic_matrix[3,:] = np.array([0,0,0,1])
 
         cam_ext_matrices[cam_name] = extrinsic_matrix
     return cam_ext_matrices
+
+def read_csv(csv_path):
+    with open(csv_path, "rt") as f:
+        reader = csv.reader(f, delimiter=",")
+        data = list(reader)
+    return data
