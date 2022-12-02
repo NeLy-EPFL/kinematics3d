@@ -69,10 +69,8 @@ constraints = [
  ['femur_tibia_R', 'tibia_tarsus_R'],
  ['post_vert_brist_L', 'ant_orb_brist_L'],
  ['ant_orb_brist_L', 'base_anten_L'],
- ['base_anten_L', 'tip_anten_L'],
  ['post_vert_brist_R', 'ant_orb_brist_R'],
  ['ant_orb_brist_R', 'base_anten_R'],
- ['base_anten_R', 'tip_anten_R'],
  ['base_anten_R', 'base_anten_L'],
  ['thorax_midpoint_tether', 'thorax_wing_L'],
  ['thorax_midpoint_tether', 'thorax_wing_R'],
@@ -84,15 +82,17 @@ constraints_weak = [
  ['tibia_tarsus_R', 'claw_R'],
  ['thorax_wing_L', 'dorsal_humeral_L'],
  ['dorsal_humeral_L', 'ventral_humeral_L'],
+ ['base_anten_L', 'tip_anten_L'],
  ['thorax_wing_R', 'dorsal_humeral_R'],
  ['dorsal_humeral_R', 'ventral_humeral_R'],
+ ['base_anten_R', 'tip_anten_R'],
  ['ant_orb_brist_R', 'labellum_tip'],
  ['ant_orb_brist_L', 'labellum_tip'],
 ]
 # Strength of enforcement of the smoothing constraints.
-scale_smooth = 1.5 #2.
+scale_smooth = 1.25 #2.
 # Strength of enforcement of the spatial constraints.
-scale_length = 2.5 #3
+scale_length = 2.0 #3
 scale_length_weak = 0.75
 reproj_error_threshold = 4 #5
 # Score below which labels are determined erroneous for the 3D filters.
