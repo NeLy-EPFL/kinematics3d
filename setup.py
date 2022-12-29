@@ -8,9 +8,9 @@ with open('README.md') as readme_file:
     README = readme_file.read()
 
 REQUIREMENTS = [
-    'anipose==1.0.1',
-    'opencv-contrib-python==4.5.5.62',
-    'imutils',
+#    'anipose==1.0.1',
+#    'opencv-contrib-python==4.5.5.62',
+#    'imutils',
     'mycolorpy',
     'toml',
     'pandas',

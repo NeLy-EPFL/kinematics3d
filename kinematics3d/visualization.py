@@ -137,9 +137,9 @@ def animate_3d_points(points3d, key_points, export_path, fps=100, frame_no=1000,
     # ax3d.set_ylim3d([-1,1])
     # ax3d.set_zlim3d([-2,0.1])
 
-    ax3d.set_xticks([])
-    ax3d.set_yticks([])
-    ax3d.set_zticks([])
+    # ax3d.set_xticks([])
+    # ax3d.set_yticks([])
+    # ax3d.set_zticks([])
 
     #ax3d.set_title('DLC and DF3D Results')
     # ax3d.legend(bbox_to_anchor=(1.2, 0.9), frameon=False)
