@@ -1,10 +1,9 @@
-# pylint: disable=logging-format-interpolation, invalid-name
 """ Script to run DeepLabCut on all data in a directory. """
 import re
 import logging
 from pathlib import Path
 from sys import platform
-from typing import List
+from typing import List, Optional
 
 from kinematics3d.utils import change_kp_names
 from kinematics3d.constants import KP_NAME_CHANGES, DLC_CONFIG_PATH
@@ -83,7 +82,12 @@ def get_folder_names(date_upper: int, date_lower: int, genotype: str, **kwargs) 
     return directories_to_add
 
 
-def get_video_paths(input_dir: str, camera_id: int, export_path: str = None, overwrite: bool = False) -> List:
+def get_video_paths(
+    input_dir: str,
+    camera_id: int,
+    export_path: Optional[str] = None,
+    overwrite: Optional[bool] = False
+) -> List:
     """Writes paths of experimental folders in a txt file given.
 
     Parameters
@@ -121,8 +125,8 @@ def get_video_paths(input_dir: str, camera_id: int, export_path: str = None, ove
             if dlc_path.is_file() and not overwrite:
                 logging.info(f"{video_path} DLC exists! Skipping...")
                 continue
-            else:
-                path_list.append(video_path.as_posix() + "\n")
+
+            path_list.append(video_path.as_posix() + "\n")
 
     if export_path is not None:
         with open(export_path, "a") as f:
@@ -132,7 +136,12 @@ def get_video_paths(input_dir: str, camera_id: int, export_path: str = None, ove
     return path_list
 
 
-def run_dlc(camera_id: int, paths: List[str], show_kp: bool = False, video_type: str = "mp4") -> None:
+def run_dlc(
+    camera_id: int,
+    paths: List[str],
+    show_kp: Optional[bool] = False,
+    video_type: Optional[str] = "mp4"
+) -> None:
     """Runs DLC on the videos.
 
     Parameters
@@ -154,13 +163,20 @@ def run_dlc(camera_id: int, paths: List[str], show_kp: bool = False, video_type:
         logging.info(f"Running DLC on {video_path}")
 
         dlc.analyze_videos(
-            DLC_CONFIG_PATH[f"camera_{camera_id}"], [video_path], destfolder=pose_2d_path, videotype=video_type
-        )
+            DLC_CONFIG_PATH[f"camera_{camera_id}"],
+            [video_path],
+            destfolder=pose_2d_path,
+            videotype=video_type)
         # rename the pose estimation file
         list(pose_2d_path.glob(f"camera_{camera_id}*.h5"))[0].rename(pose_2d_path / f"camera_{camera_id}.h5")
         if show_kp:
             dlc.create_labeled_video(
-                DLC_CONFIG_PATH[f"camera_{camera_id}"], [video_path], destfolder=pose_2d_path, videotype=video_type
-            )
+                DLC_CONFIG_PATH[f"camera_{camera_id}"],
+                [video_path],
+                destfolder=pose_2d_path,
+                videotype=video_type)
         if camera_id in [1, 4, 5]:
-            change_kp_names(pose_2d_path / f"camera_{camera_id}.h5", KP_NAME_CHANGES[f"camera_{camera_id}"])
+            change_kp_names(
+                pose_2d_path / f"camera_{camera_id}.h5",
+                KP_NAME_CHANGES[f"camera_{camera_id}"]
+            )

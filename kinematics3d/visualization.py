@@ -1,6 +1,4 @@
 """ Plotting and animation. """
-import pickle
-import numpy as np
 import logging
 import matplotlib.pyplot as plt
 from matplotlib import animation
@@ -15,8 +13,8 @@ logging.basicConfig(
 
 def plot_3d_points(points3d, key_points, t=0, **kwargs):
     """ Plots 3D points."""
-    azim = kwargs.get('azim',90)#-21)
-    elev = kwargs.get('elev',0)# 20)
+    azim = kwargs.get('azim', 90)  # -21)
+    elev = kwargs.get('elev', 0)  # 20)
     format_img = kwargs.get('format_img', 'png')
     export_path = kwargs.get('export_path', None)
 
@@ -90,10 +88,11 @@ def plot_3d_points(points3d, key_points, t=0, **kwargs):
     plt.show()
 
 
-def animate_3d_points(points3d, key_points, export_path, fps=100, frame_no=1000, format_video='mp4', **kwargs):
+def animate_3d_points(points3d, key_points, export_path, fps=100,
+                      frame_no=1000, format_video='mp4', **kwargs):
     """ Makes an animation from 3D plot."""
-    azim = kwargs.get('azim',0)#-21)
-    elev = kwargs.get('elev',10)# 20)
+    azim = kwargs.get('azim', 0)  # -21)
+    elev = kwargs.get('elev', 10)  # 20)
     fig = plt.figure()
     ax3d = p3.Axes3D(fig)
     ax3d.view_init(azim=azim, elev=elev)
