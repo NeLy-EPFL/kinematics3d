@@ -13,65 +13,62 @@ from kinematics3d.pose2d import get_folder_names, get_video_paths, run_dlc
 
 
 def parse_args():
-    """ Argument parser. """
+    """Argument parser."""
     parser = argparse.ArgumentParser(
-        description='Pipeline to automatize DLC run',
-        formatter_class=(
-            lambda prog:
-            argparse.HelpFormatter(prog, max_help_position=50)
-        ),
+        description="Pipeline to automatize DLC run",
+        formatter_class=(lambda prog: argparse.HelpFormatter(prog, max_help_position=50)),
     )
     parser.add_argument(
-        '-txt',
-        '--txt_dir',
+        "-txt",
+        "--txt_dir",
         type=str,
         default=None,
-        help='Directory of the txt file that contains exp paths',
+        help="Directory of the txt file that contains exp paths",
     )
     parser.add_argument(
-        '-du',
-        '--date_upper',
+        "-du",
+        "--date_upper",
         type=int,
         default=None,
-        help='Finish date of experiments to include',
+        help="Finish date of experiments to include",
     )
     parser.add_argument(
-        '-dl',
-        '--date_lower',
+        "-dl",
+        "--date_lower",
         type=int,
         default=None,
-        help='Start date of experiments to include',
+        help="Start date of experiments to include",
     )
     parser.add_argument(
-        '--genotype',
+        "--genotype",
         type=str,
-        default='',
-        help='Genotype to include',
+        default="",
+        help="Genotype to include",
     )
     parser.add_argument(
-        '--include',
-        nargs='*',
+        "--include",
+        nargs="*",
         type=str,
-        default=[''],
-        help='Types of experiment to be included in the txt file',
+        default=[""],
+        help="Types of experiment to be included in the txt file",
     )
     parser.add_argument(
-        '--export_path',
+        "--export_path",
         type=str,
         default=None,
-        help='Output directory where directories will be saved',
+        help="Output directory where directories will be saved",
     )
     parser.add_argument(
-        '--pose2d',
+        "--pose2d",
         default=False,
-        action='store_true',
-        help='Runs DLC to get 2D pose estimation',
+        action="store_true",
+        help="Runs DLC to get 2D pose estimation",
     )
     return parser.parse_args()
 
 
-if __name__ == '__main__':
-    """ Main. """
+if __name__ == "__main__":
+    """Main."""
     args = parse_args()
 
     if args.txt_dir is None:
@@ -80,7 +77,8 @@ if __name__ == '__main__':
             date_lower=args.date_lower,
             genotype=args.genotype,
             exps_to_include=args.include,
-            export_path=args.export_path)
+            export_path=args.export_path,
+        )
     else:
         exp_dirs = load_txt(args.txt_dir)
 

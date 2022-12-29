@@ -15,8 +15,8 @@ logging.basicConfig(
 
 def plot_3d_points(points3d, key_points, t=0, **kwargs):
     """ Plots 3D points."""
-    azim = kwargs.get('azim',0)#-21)
-    elev = kwargs.get('elev',90)# 20)
+    azim = kwargs.get('azim',90)#-21)
+    elev = kwargs.get('elev',0)# 20)
     format_img = kwargs.get('format_img', 'png')
     export_path = kwargs.get('export_path', None)
 
