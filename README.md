@@ -22,7 +22,8 @@ $ pip install -e .
 ```
 Note that, depending on your GPU, the installation of DeepLabCut and Anipose may require some extra tweaks in the installation.
 
-## Summary of scripts
+
+## Summary of scripts
 - ```animate_3d``` : script to animate 3D poses, set the keypoints to be drawn in `KEYPOINTS_DICT` in main. Example usage:
   ```bash
   $ animate_3d --pose_path pose3d.h5 --export_path pose3d_side --video --plot
