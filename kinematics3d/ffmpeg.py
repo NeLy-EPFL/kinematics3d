@@ -89,6 +89,9 @@ def make_grid_16_videos(video_list, output_path):
             '-i', video_list[13],
             '-i', video_list[14],
             '-i', video_list[15],
+            '-c:v', 'libx264',
+            # '-profile:v', 'baseline',
+            '-c:a', 'aac',
             '-filter_complex',
             '''[0:v][1:v][2:v][3:v][4:v][5:v][6:v][7:v][8:v][9:v][10:v][11:v][12:v][13:v][14:v][15:v]xstack=inputs=16:layout=0_0|w0_0|w0+w1_0|w0+w1+w2_0|0_h0|w4_h0|w4+w5_h0|w4+w5+w6_h0|0_h0+h4|w8_h0+h4|w8+w9_h0+h4|w8+w9+w10_h0+h4|0_h0+h4+h8|w12_h0+h4+h8|w12+w13_h0+h4+h8|w12+w13+w14_h0+h4+h8''',
             output_path
