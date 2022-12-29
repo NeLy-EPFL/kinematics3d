@@ -129,7 +129,11 @@ if __name__ == "__main__":
         pts[:, joint_num, 2] = points3d[f"{joint}_z"]
 
     if args.plot:
-        plot_3d_points(pts, KEY_POINTS_DICT, t=10, export_path=args.export_path, azim=args.azim, elev=args.elev)
+        plot_3d_points(
+            pts, KEY_POINTS_DICT, t=10,
+            export_path=args.export_path,
+            azim=args.azim, elev=args.elev
+            )
 
     if args.video:
         animate_3d_points(
