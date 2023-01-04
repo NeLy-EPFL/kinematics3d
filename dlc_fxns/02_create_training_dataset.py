@@ -15,6 +15,12 @@ parser.add_argument(
     default='imgaug',
     help="Image augmentation",
 )
+parser.add_argument(
+    "--merge",
+    default=False,
+    action="store_true",
+    help="Merge datasets    ",
+)
 args = parser.parse_args()
 
 if args.config_path is None:
@@ -22,5 +28,6 @@ if args.config_path is None:
 else:
     config_path = args.config_path
 
-
+if args.merge:
+    deeplabcut.merge_datasets(config_path)
 deeplabcut.create_training_dataset(config_path, augmenter_type=args.aug_type)

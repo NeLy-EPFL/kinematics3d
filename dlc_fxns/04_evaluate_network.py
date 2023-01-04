@@ -1,5 +1,5 @@
 import argparse
-from pathlib import Path
+
 import deeplabcut
 import tensorflow as tf
 
@@ -11,6 +11,12 @@ parser.add_argument(
     default=None,
     help="Config file",
 )
+parser.add_argument(
+    "--plot",
+    default=False,
+    action="store_true",
+    help="Plots the evaluation results",
+)
 args = parser.parse_args()
 
 if args.config_path is None:
@@ -20,11 +26,6 @@ else:
 
 
 if tf.test.is_gpu_available():
-    video_list = [
-    '/home/nely/DLC_annotation/final/cam2/pose_estimation/legs/new/220412_Fly001_Beh2_cam2.mp4',
-    ]
-    videotype = Path(video_list[0]).suffix
-    #deeplabcut.analyze_videos(config_file, video_list, videotype='.mp4')
-    deeplabcut.create_labeled_video(config_path,video_list,trailpoints=5)
+    deeplabcut.evaluate_network(config_path,Shuffles=[1], plotting=args.plot)
 else:
-    raise RuntimeError('GPU is not found!')
+    print('GPU is not found!')
