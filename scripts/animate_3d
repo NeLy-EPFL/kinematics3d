@@ -57,7 +57,7 @@ def parse_args():
     parser.add_argument(
         '--elev',
         type=int,
-        default=20,
+        default=10,
         help='Elevation angle of the camera',
     )
     return parser.parse_args()
@@ -120,13 +120,14 @@ if __name__ == "__main__":
         # 'max_palp': (np.arange(22, 24), 'o')
     }
 
+
     pts = np.zeros((points3d.shape[0], len(joints), 3))
 
     for joint_num, joint in enumerate(joints):
-
         pts[:, joint_num, 0] = points3d[f"{joint}_x"]
         pts[:, joint_num, 1] = points3d[f"{joint}_y"]
         pts[:, joint_num, 2] = points3d[f"{joint}_z"]
+
 
     if args.plot:
         plot_3d_points(

@@ -134,3 +134,8 @@ dmypy.json
 # files
 *.txt
 .vscode
+
+#custom folders
+/calibration_videos
+/dlc-networks
+/charuco_board
