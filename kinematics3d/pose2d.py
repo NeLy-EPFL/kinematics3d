@@ -168,14 +168,16 @@ def run_dlc(
             [video_path],
             destfolder=pose_2d_path,
             videotype=video_type)
-        # rename the pose estimation file
-        list(pose_2d_path.glob(f"camera_{camera_id}*.h5"))[0].rename(pose_2d_path / f"camera_{camera_id}.h5")
         if show_kp:
             dlc.create_labeled_video(
                 DLC_CONFIG_PATH[f"camera_{camera_id}"],
                 [video_path],
                 destfolder=pose_2d_path,
                 videotype=video_type)
+
+        # rename the pose estimation file
+        list(pose_2d_path.glob(f"camera_{camera_id}*.h5"))[0].rename(pose_2d_path / f"camera_{camera_id}.h5")
+
         if camera_id in [1, 4, 5]:
             change_kp_names(
                 pose_2d_path / f"camera_{camera_id}.h5",

@@ -144,7 +144,12 @@ def anipose_pipeline(
         subprocess.run(["anipose", "triangulate"], check=True)
 
 
-def run_pipeline_from_txt(txt_dir: str, remove_pose3d: Optional[bool] = False, **kwargs):
+def run_pipeline_from_txt(
+    txt_dir: str,
+    remove_pose3d: Optional[bool] = False,
+    remove_pose2dfilt: Optional[bool] = False,
+    **kwargs
+    ):
     """Run Anipose pipeline from a txt file containing the main directories.
        kwargs are the arguments for the anipose_pipeline() function,
        see its optional arguments.
@@ -179,6 +184,8 @@ def run_pipeline_from_txt(txt_dir: str, remove_pose3d: Optional[bool] = False, *
     for p_name in np.unique(path_list):
         check_config_exists(p_name)
         check_calib_exists(p_name, overwrite=False)
+        if remove_pose2dfilt:
+            check_pose_folder_exists(p_name, folder_name="pose_2d_filter")
         if remove_pose3d:
             check_pose_folder_exists(p_name, folder_name="pose_3d")
         anipose_pipeline(p_name, **kwargs)
