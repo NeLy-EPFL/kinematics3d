@@ -40,5 +40,6 @@ setup(
         'scripts/run_anipose',
         'scripts/animate_3d',
         'scripts/viz_cam_locations',
+        'scripts/viz_real_vs_pose3d',
     ],
 )
