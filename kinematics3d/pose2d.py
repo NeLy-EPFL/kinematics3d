@@ -161,6 +161,7 @@ def run_dlc(
         video_path = p.rstrip("\n")
         pose_2d_path = Path(video_path).parents[1] / "pose-2d"
         logging.info(f"Running DLC on {video_path}")
+        logging.info(f'''Config path is: {DLC_CONFIG_PATH[f"camera_{camera_id}"]}''')
 
         dlc.analyze_videos(
             DLC_CONFIG_PATH[f"camera_{camera_id}"],
