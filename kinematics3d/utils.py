@@ -7,12 +7,40 @@ import cv2
 from mycolorpy import colorlist as mcp
 
 
+def get_video_dims(video_path):
+    """Returns video height and width."""
+    vid = cv2.VideoCapture(video_path)
+    height = vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    width = vid.get(cv2.CAP_PROP_FRAME_WIDTH)
+
+    return height, width
+
+
 def change_kp_names(hdf_path, replace_dict):
     """ Replaces the column names according to the given dictionary. """
     dataframe = pd.read_hdf(hdf_path, 'df_with_missing')
     bp_index = dataframe.columns.names.index('bodyparts')
     dataframe_changed = dataframe.rename(columns=replace_dict, level=bp_index).copy()
+
     dataframe_changed.to_hdf(hdf_path, 'df_with_missing')
+
+
+def change_and_delete_kp_names(hdf_path, replace_dict, hdf_path_updated):
+    """ Replaces and removes the column names according to the given dictionary. """
+    dataframe = pd.read_hdf(hdf_path, 'df_with_missing')
+    bp_index = dataframe.columns.names.index('bodyparts')
+    delete_kps = [kp for (kp, replace_name) in replace_dict.items() if replace_name=='delete']
+    replace_kps = {
+        kp:replace_name
+        for (kp, replace_name) in replace_dict.items()
+        if replace_name!='delete'
+        }
+
+    dataframe_dropped = dataframe.drop(columns=delete_kps, level=bp_index, axis=1).copy()
+    dataframe_changed = dataframe_dropped.rename(columns=replace_kps, level=bp_index).copy()
+
+    dataframe_changed.to_hdf(hdf_path_updated, 'df_with_missing')
+
 
 
 def load_txt(txt_path: str):
