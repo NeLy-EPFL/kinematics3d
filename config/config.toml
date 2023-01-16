@@ -45,8 +45,8 @@ manually_verify = false
 scheme =[
  ['thorax_coxa_L', 'coxa_femur_L', 'femur_tibia_L', 'tibia_tarsus_L', 'claw_L'],
  ['thorax_coxa_R', 'coxa_femur_R', 'femur_tibia_R', 'tibia_tarsus_R', 'claw_R'],
- ['post_vert_brist_L', 'ant_orb_brist_L', 'base_anten_L', 'tip_anten_L', 'maxillary_palp_L', 'labellum_tip'],
- ['post_vert_brist_R', 'ant_orb_brist_R', 'base_anten_R', 'tip_anten_R', 'maxillary_palp_R', 'labellum_tip'],
+ ['post_vert_brist_L', 'ant_orb_brist_L', 'base_anten_L', 'tip_anten_L', 'labellum_tip'],
+ ['post_vert_brist_R', 'ant_orb_brist_R', 'base_anten_R', 'tip_anten_R', 'labellum_tip'],
  ['thorax_midpoint_tether', 'thorax_wing_L', 'ant_notopleural_L', 'dorsal_humeral_L', 'ventral_humeral_L'],
  ['thorax_midpoint_tether', 'thorax_wing_R', 'ant_notopleural_R', 'dorsal_humeral_R', 'ventral_humeral_R'],
 ]
