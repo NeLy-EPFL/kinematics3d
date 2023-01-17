@@ -66,14 +66,14 @@ $ pip install opencv-contrib-python==4.5.5.64
   + [ ] Test the dlc and anipose pipeline after changes (12.22)
   + [ ] [WIP] Documentation - steps, wiki about calibration etc.
   + [ ] Change server names.
-  + [ ] TODO after the annotation -> reduce the constraints during triangulation
-  + [ ] TODO after the annotation -> only take one side of the pose predictions on the side cameras. In general, change the key points to be considered in the triangulation. Jumpy key points should be removed.
+  + [x] TODO after the annotation -> reduce the constraints during triangulation
+  + [x] TODO after the annotation -> only take one side of the pose predictions on the side cameras. In general, change the key points to be considered in the triangulation. Jumpy key points should be removed -> this does not yield good results
   + [ ] Change ```constants.py``` accordingly.
 
 ### DLC to-do
-+ [ ] Merge different annotations for cam 3 and 5
-+ [ ] Check the annotations again
-+ [ ] Annotate the newest experiments
-+ [ ] Double check the key points. Exclude the key points that are merely visible from one camera (e.g. right thorax coxa is rarely visible from the left front view.)
++ [x] Merge different annotations for cam 3 and 5
++ [x] Check the annotations again
++ [x] Annotate the newest experiments
++ [x] Double check the key points. Exclude the key points that are merely visible from one camera (e.g. right thorax coxa is rarely visible from the left front view -removed that and max palp.)
 
 </details>
