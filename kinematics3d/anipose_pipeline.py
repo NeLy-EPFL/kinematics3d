@@ -159,6 +159,14 @@ def run_pipeline_from_txt(
     assert os.path.isfile(f"{txt_dir}"), f"Please create `{txt_dir}`!"
     assert os.path.getsize(f"{txt_dir}"), f"{txt_dir} is empty!!"
 
+    if remove_pose2dfilt:
+        deletepose2dfilt = input('Existing pose-2d-filter folders will be deleted! Are you sure? [y/n]')
+        remove_pose2dfilt = False if deletepose2dfilt.lower() == 'n' else True
+
+    if remove_pose3d:
+        deletepose3d = input('Existing pose-3d folders will be deleted! Are you sure? [y/n]')
+        remove_pose3d = False if deletepose3d.lower() == 'n' else True
+
     logging.info(f"Running Anipose on the folders inside {txt_dir}")
     path_list = []
     for line in open(txt_dir):

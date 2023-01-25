@@ -97,11 +97,13 @@ if __name__ == "__main__":
 
 
     if args.overwrite:
-        for exp in exp_dirs:
-            dest_folder = Path(exp) / "behData" / "pose-2d"
-            if dest_folder.is_dir():
-                logging.info(f"Pose folder exists, deleting the directory {dest_folder.as_posix()}")
-                shutil.rmtree(dest_folder)
+        delete = input('Existing pose-2d folders will be deleted! Are you sure? [y/n]')
+        if delete.lower() == 'y':
+            for exp in exp_dirs:
+                dest_folder = Path(exp) / "behData" / "pose-2d"
+                if dest_folder.is_dir():
+                    logging.info(f"Pose folder exists, deleting the directory {dest_folder.as_posix()}")
+                    shutil.rmtree(dest_folder)
 
 
     if args.pose2d:
