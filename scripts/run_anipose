@@ -46,10 +46,22 @@ def parse_args():
         help='Triangulate 2D poses',
     )
     parser.add_argument(
+        '--removecalib',
+        default=False,
+        action='store_true',
+        help='Remove existing calibration folder',
+    )
+    parser.add_argument(
         '--remove3d',
         default=False,
         action='store_true',
         help='Remove existing 3D poses',
+    )
+    parser.add_argument(
+        '--remove2dfilt',
+        default=False,
+        action='store_true',
+        help='Remove existing filtered 2D poses',
     )
     return parser.parse_args()
 
@@ -63,5 +75,7 @@ if __name__ == '__main__':
         filter_2d=args.filter_2d,
         calibrate=args.calibrate,
         triangulate=args.triangulate,
-        remove_pose3d=args.remove3d
+        remove_calib=args.removecalib,
+        remove_pose3d=args.remove3d,
+        remove_pose2dfilt=args.remove2dfilt
     )

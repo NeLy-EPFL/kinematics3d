@@ -61,8 +61,8 @@ def check_calib_exists(main_path: Path, overwrite: Optional[bool] = True) -> Non
 
     if (main_path / "calibration").is_dir():
         if overwrite:
-            # shutil.rmtree(main_path / "calibration")
-            # shutil.copytree(calib_dir, main_path / "calibration")
+            shutil.rmtree(main_path / "calibration")
+            shutil.copytree(calib_dir, main_path / "calibration")
             logging.info("Removing the existing calibration file...")
         else:
             logging.info("Keeping the existing calibration file...")
@@ -146,6 +146,7 @@ def anipose_pipeline(
 
 def run_pipeline_from_txt(
     txt_dir: str,
+    remove_calib: Optional[bool] = False,
     remove_pose3d: Optional[bool] = False,
     remove_pose2dfilt: Optional[bool] = False,
     **kwargs
@@ -166,6 +167,10 @@ def run_pipeline_from_txt(
     if remove_pose3d:
         deletepose3d = input('Existing pose-3d folders will be deleted! Are you sure? [y/n]')
         remove_pose3d = False if deletepose3d.lower() == 'n' else True
+
+    if remove_calib:
+        deletecalib = input('Existing calibration folders will be deleted! Are you sure? [y/n]')
+        remove_calib = False if deletecalib.lower() == 'n' else True
 
     logging.info(f"Running Anipose on the folders inside {txt_dir}")
     path_list = []
@@ -191,7 +196,7 @@ def run_pipeline_from_txt(
 
     for p_name in np.unique(path_list):
         check_config_exists(p_name)
-        check_calib_exists(p_name, overwrite=False)
+        check_calib_exists(p_name, overwrite=remove_calib)
         if remove_pose2dfilt:
             check_pose_folder_exists(p_name, folder_name="pose_2d_filter")
         if remove_pose3d:
