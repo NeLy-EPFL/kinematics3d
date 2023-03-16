@@ -86,8 +86,8 @@ constraints_weak = [
  ['thorax_wing_R', 'dorsal_humeral_R'],
  ['dorsal_humeral_R', 'ventral_humeral_R'],
  ['base_anten_R', 'tip_anten_R'],
- ['ant_orb_brist_R', 'labellum_tip'],
- ['ant_orb_brist_L', 'labellum_tip'],
+#  ['ant_orb_brist_R', 'labellum_tip'],
+#  ['ant_orb_brist_L', 'labellum_tip'],
 ]
 # Strength of enforcement of the smoothing constraints.
 scale_smooth = 1.25 #2.
