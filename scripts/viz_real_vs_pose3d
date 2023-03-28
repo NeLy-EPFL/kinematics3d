@@ -1,0 +1,74 @@
+#!/usr/bin/env python
+
+"""
+Plot the animal video and 3D pose estimation side by side.
+
+Example usage:
+    >>> python viz_real_vs_pose3d.py -a ./videos/camera_3.mp4 -p ./pose-3d/pose3d_vis.mp4
+"""
+import argparse
+from pathlib import Path
+
+from kinematics3d.utils import get_video_dims
+from kinematics3d.ffmpeg import scale_video, put2videos_together
+
+def parse_args():
+    """Argument parser."""
+    parser = argparse.ArgumentParser(
+        description="Pipeline to automatize DLC run",
+        formatter_class=(lambda prog: argparse.HelpFormatter(prog, max_help_position=50)),
+    )
+    parser.add_argument(
+        "-p",
+        "--pose_path",
+        type=str,
+        default=None,
+        help="Path of 3D pose video",
+    )
+    parser.add_argument(
+        "-a",
+        "--animal_path",
+        type=str,
+        default=None,
+        help="Path of animal video",
+    )
+    parser.add_argument(
+        "-e",
+        "--export_path",
+        type=str,
+        default=None,
+        help="Export path of the combined video",
+    )
+    return parser.parse_args()
+
+
+
+if __name__ == "__main__":
+    """Main."""
+    args = parse_args()
+
+    # Get video sizes
+    anim_video_height, _ = get_video_dims(args.animal_path)
+    pose_video_height, _ = get_video_dims(args.pose_path)
+
+    if args.export_path is None:
+        export_path = Path(args.animal_path).parents[0] / 'combined_pose_and_anim.mp4'
+    else:
+        export_path = args.export_path
+
+    # If anim height is higher than pose height, scale the anim
+    if anim_video_height > pose_video_height:
+        new_anim_path = args.animal_path.replace('.mp4', '_scaled.mp4')
+        scale_video(
+            args.animal_path,
+            new_anim_path,
+            height=pose_video_height)
+        put2videos_together(new_anim_path, args.pose_path, str(export_path))
+    else:
+        new_pose_path = args.pose_path.replace('.mp4', '_scaled.mp4')
+        scale_video(
+            args.pose_path,
+            new_pose_path,
+            height=anim_video_height)
+        put2videos_together(args.animal_path, new_pose_path, str(export_path))
+
