@@ -22,6 +22,14 @@ $ pip install -e .
 ```
 Note that, depending on your GPU, the installation of DeepLabCut and Anipose may require some extra tweaks in the installation.
 
+**Note:** Anipose is built on a specific version, if you encounter any error like `AttributeError: module 'cv2' has no attribute 'imread'`
+```bash
+$ pip uninstall python-opencv opencv-contrib-python opencv-python
+```
+And then run the following:
+```bash
+$ pip install opencv-contrib-python==4.5.5.64
+```
 
 ## Summary of scripts
 - ```animate_3d``` : script to animate 3D poses, set the keypoints to be drawn in `KEYPOINTS_DICT` in main. Example usage:
