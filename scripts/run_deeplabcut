@@ -6,6 +6,10 @@
     - If you want to run DLC, just append --pose2d to the above command
     - If you have the txt file ready, then you can skip the specs and run:
     >>> run_deeplabcut --txt_dir dirs.txt --pose2d
+
+    NOTE:
+    This function assumes that you will have only one 2d pose file under the name of "camera_{id}.h5".
+    In case you have more than one h5 files for the same camera, that will create problems.
 """
 import argparse
 from pathlib import Path
@@ -100,10 +104,11 @@ if __name__ == "__main__":
         delete = input('Existing pose-2d folders will be deleted! Are you sure? [y/n]')
         if delete.lower() == 'y':
             for exp in exp_dirs:
-                dest_folder = Path(exp) / "behData" / "pose-2d"
-                if dest_folder.is_dir():
-                    logging.info(f"Pose folder exists, deleting the directory {dest_folder.as_posix()}")
-                    shutil.rmtree(dest_folder)
+                dest_folders = Path(exp).rglob(f"*/pose-2d")
+                for dest_folder in dest_folders:
+                    if dest_folder.is_dir():
+                        logging.info(f"Pose folder exists, deleting the directory {dest_folder.as_posix()}")
+                        shutil.rmtree(dest_folder)
 
 
     if args.pose2d:
