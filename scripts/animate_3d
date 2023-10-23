@@ -150,8 +150,8 @@ if __name__ == "__main__":
 
     if args.plot:
         plot_3d_points(
-            pts, KEY_POINTS_DICT, t=10,
-            export_path=args.export_path,
+            pts, KEY_POINTS_DICT, t=0,
+            export_path=args.export_path + ".png",
             azim=args.azim, elev=args.elev
             )
 
