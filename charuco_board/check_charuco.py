@@ -3,6 +3,8 @@ import cv2
 import imutils
 import matplotlib.pyplot as plt
 
+import matplotlib.pyplot as plt
+
 if __name__=='__main__':
 
     subprocess.run(['anipose','draw-calibration'])
@@ -12,8 +14,16 @@ if __name__=='__main__':
 
     # from IPython import
 
+    fig, (ax1,ax2) = plt.subplots(1,2,figsize=(10,5))
     anipose_board = imutils.resize(anipose_board, height = 200)
+    ax1.imshow(anipose_board)
+    ax1.set_title('Anipose reconstructions')
     cv_board = imutils.resize(cv_board, height = 200)
+    ax2.imshow(cv_board)
+    ax2.set_title('OpenCV reconstructions')
+    ax1.axis('off')
+    ax2.axis('off')
+    plt.show()
 
     fig, (ax1,ax2) = plt.subplots(1,2,figsize=(10,5))
     anipose_board = imutils.resize(anipose_board, height = 200)

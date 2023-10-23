@@ -44,7 +44,7 @@ def plot_3d_points(points3d, key_points, t=0, **kwargs):
                 points3d[t, order, 0],
                 points3d[t, order, 1],
                 points3d[t, order, 2],
-                lw=2.5,
+                lw=3.,
                 label=kp,
                 marker=ls,
                 markersize=9,
@@ -67,8 +67,8 @@ def plot_3d_points(points3d, key_points, t=0, **kwargs):
     # except ValueError:
     #     ax3d.set_zlim3d([-82,82])
     # ax3d.set_xlim3d([-0.8,1.2])
-    # ax3d.set_ylim3d([-.2,.2]) # ax3d.set_ylim3d([-1.0,1.0])
-    # ax3d.set_zlim3d([-0.2,0.1])
+    ax3d.set_ylim3d([-.8,.8]) # ax3d.set_ylim3d([-1.0,1.0])
+    ax3d.set_zlim3d([-1.3,0.1])
 
     # ax3d.set_xticks([])
     # ax3d.set_yticks([])
@@ -81,6 +81,8 @@ def plot_3d_points(points3d, key_points, t=0, **kwargs):
 
     # ax3d.set_title('DLC and DF3D Results')
     ax3d.legend(ncol=2, frameon=False)
+
+    ax3d.grid(False)
 
     if export_path is not None:
         fig.savefig(export_path, bbox_inches='tight', format=format_img)
