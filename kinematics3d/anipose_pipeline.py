@@ -16,7 +16,9 @@ import numpy as np
 import kinematics3d
 
 # Change the logging level here
-logging.basicConfig(level=logging.INFO, format=" %(asctime)s - %(levelname)s- %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format=" %(asctime)s - %(levelname)s- %(message)s"
+)
 
 CONFIG_PATH = Path(kinematics3d.__path__[0]).parents[0] / "config"
 
@@ -71,7 +73,9 @@ def check_calib_exists(main_path: Path, overwrite: Optional[bool] = True) -> Non
         logging.info(f"Copying default calibration into {main_path}")
 
     # Change calibration directory in the config file
-    config_data["pipeline"]["calibration_results"] = (main_path / "calibration").as_posix()
+    config_data["pipeline"]["calibration_results"] = (
+        main_path / "calibration"
+    ).as_posix()
     config_data["calibration"]["calibration_init"] = (
         main_path / "calibration/calibration_init.toml"
     ).as_posix()
@@ -95,12 +99,14 @@ def check_pose_folder_exists(main_path: Path, folder_name: str) -> None:
     folder_name: str
         Folder name that anipose uses to store data, e.g., pose_2d for 2D pose
     """
-    # These names are the default ones in the config.
+    # These names are the default ones in the config.
     # If you use a different naming, change the below list.
     if folder_name not in ["pose_3d", "pose_2d", "pose_2d_filter"]:
         raise ValueError(
             "Folder name {} is invalid! It should be either of pose_3d, pose_2d, pose_2d_filter".format(
-                folder_name))
+                folder_name
+            )
+        )
 
     config_data = toml.load(main_path / "config.toml")
     pose_name = config_data["pipeline"][folder_name]
@@ -108,7 +114,9 @@ def check_pose_folder_exists(main_path: Path, folder_name: str) -> None:
 
     if pose_dirs:
         for pose_dir_name in pose_dirs:
-            logging.info(f"Pose folder exists, deleting the directory {pose_dir_name.as_posix()}")
+            logging.info(
+                f"Pose folder exists, deleting the directory {pose_dir_name.as_posix()}"
+            )
             shutil.rmtree(pose_dir_name)
 
 
@@ -116,7 +124,7 @@ def anipose_pipeline(
     main_dir: Path,
     filter_2d: Optional[bool] = True,
     calibrate: Optional[bool] = True,
-    triangulate: Optional[bool] = True
+    triangulate: Optional[bool] = True,
 ):
     """Runs anipose pipeline in a given directory.
 
@@ -149,11 +157,11 @@ def run_pipeline_from_txt(
     remove_calib: Optional[bool] = False,
     remove_pose3d: Optional[bool] = False,
     remove_pose2dfilt: Optional[bool] = False,
-    **kwargs
-    ):
+    **kwargs,
+):
     """Run Anipose pipeline from a txt file containing the main directories.
-       kwargs are the arguments for the anipose_pipeline() function,
-       see its optional arguments.
+    kwargs are the arguments for the anipose_pipeline() function,
+    see its optional arguments.
     """
     txt_dir += ".txt" if not txt_dir.endswith(".txt") else ""
 
@@ -161,16 +169,22 @@ def run_pipeline_from_txt(
     assert os.path.getsize(f"{txt_dir}"), f"{txt_dir} is empty!!"
 
     if remove_pose2dfilt:
-        deletepose2dfilt = input('Existing pose-2d-filter folders will be deleted! Are you sure? [y/n]')
-        remove_pose2dfilt = False if deletepose2dfilt.lower() == 'n' else True
+        deletepose2dfilt = input(
+            "Existing pose-2d-filter folders will be deleted! Are you sure? [y/n]"
+        )
+        remove_pose2dfilt = False if deletepose2dfilt.lower() == "n" else True
 
     if remove_pose3d:
-        deletepose3d = input('Existing pose-3d folders will be deleted! Are you sure? [y/n]')
-        remove_pose3d = False if deletepose3d.lower() == 'n' else True
+        deletepose3d = input(
+            "Existing pose-3d folders will be deleted! Are you sure? [y/n]"
+        )
+        remove_pose3d = False if deletepose3d.lower() == "n" else True
 
     if remove_calib:
-        deletecalib = input('Existing calibration folders will be deleted! Are you sure? [y/n]')
-        remove_calib = False if deletecalib.lower() == 'n' else True
+        deletecalib = input(
+            "Existing calibration folders will be deleted! Are you sure? [y/n]"
+        )
+        remove_calib = False if deletecalib.lower() == "n" else True
 
     logging.info(f"Running Anipose on the folders inside {txt_dir}")
     path_list = []
@@ -187,7 +201,7 @@ def run_pipeline_from_txt(
 
         # If child directory is given, we take the parent directory.
         if parts[0] == "/":
-            new_parts = parts[:7]
+            new_parts = parts[:-1]
         else:
             raise ValueError(f"Directory {p_name} is faulty!\nPlease, check it again.")
 
@@ -195,7 +209,9 @@ def run_pipeline_from_txt(
         path_list.append(new_path)
 
     for p_name in np.unique(path_list):
-        check_config_exists(p_name)
+        check_config_exists(
+            p_name, overwrite=(remove_calib or remove_pose2dfilt or remove_pose3d)
+        )
         check_calib_exists(p_name, overwrite=remove_calib)
         if remove_pose2dfilt:
             check_pose_folder_exists(p_name, folder_name="pose_2d_filter")
