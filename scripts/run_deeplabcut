@@ -20,14 +20,18 @@ from kinematics3d.utils import load_txt
 from kinematics3d.pose2d import get_folder_names, get_video_paths, run_dlc
 
 # Change the logging level here
-logging.basicConfig(level=logging.INFO, format=" %(asctime)s - %(levelname)s- %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format=" %(asctime)s - %(levelname)s- %(message)s"
+)
 
 
 def parse_args():
     """Argument parser."""
     parser = argparse.ArgumentParser(
         description="Pipeline to automatize DLC run",
-        formatter_class=(lambda prog: argparse.HelpFormatter(prog, max_help_position=50)),
+        formatter_class=(
+            lambda prog: argparse.HelpFormatter(prog, max_help_position=50)
+        ),
     )
     parser.add_argument(
         "-txt",
@@ -81,6 +85,12 @@ def parse_args():
         action="store_true",
         help="Overwrites the 2D pose estimations",
     )
+    parser.add_argument(
+        "--show_kp_videos",
+        default=False,
+        action="store_true",
+        help="Shows the tracked key points in DLC.",
+    )
     return parser.parse_args()
 
 
@@ -99,28 +109,26 @@ if __name__ == "__main__":
     else:
         exp_dirs = load_txt(args.txt_dir)
 
-
     if args.overwrite:
-        delete = input('Existing pose-2d folders will be deleted! Are you sure? [y/n]')
-        if delete.lower() == 'y':
+        delete = input("Existing pose-2d folders will be deleted! Are you sure? [y/n]")
+        if delete.lower() == "y":
             for exp in exp_dirs:
                 dest_folders = Path(exp).rglob(f"*/pose-2d")
                 for dest_folder in dest_folders:
                     if dest_folder.is_dir():
-                        logging.info(f"Pose folder exists, deleting the directory {dest_folder.as_posix()}")
+                        logging.info(
+                            f"Pose folder exists, deleting the directory {dest_folder.as_posix()}"
+                        )
                         shutil.rmtree(dest_folder)
-
 
     if args.pose2d:
         for cam_id in range(1, 6):
             all_dict = []
             for exp in exp_dirs:
                 path_dict = get_video_paths(
-                    exp, camera_id=cam_id,
-                    export_path=None,
-                    overwrite=args.overwrite
+                    exp, camera_id=cam_id, export_path=None, overwrite=args.overwrite
                 )
                 all_dict = [*all_dict, *path_dict]
 
             # We can provide the paths either from the txt or on the run
-            run_dlc(camera_id=cam_id, paths=all_dict, show_kp=False)
+            run_dlc(camera_id=cam_id, paths=all_dict, show_kp=args.show_kp_videos)

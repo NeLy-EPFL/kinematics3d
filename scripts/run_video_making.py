@@ -67,7 +67,9 @@ if __name__ == "__main__":
         path_list.append(new_path)
 
     # get pose3d.h5
-    pose_3d_paths = [list(path_exp.rglob("pose3d.h5"))[-1] for path_exp in path_list]
+    pose_3d_paths = [
+        sorted(list(path_exp.rglob("pose3d.h5")))[-1] for path_exp in path_list
+    ]
 
     with ProcessPoolExecutor(max_workers=16) as executor:
         executor.map(run_animation, pose_3d_paths)
