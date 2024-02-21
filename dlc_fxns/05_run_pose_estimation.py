@@ -1,13 +1,12 @@
 """
-CAMERA 3:
-python 05_run_pose_estimation.py --video_dir /home/nely/DLC_annotation/final/cam3/version4/pose_estimation/gizem-new-dataset --config_path /home/nely/DLC_annotation/final/cam3/version4/intact_cam3-Melissa-2021-12-01/config.yaml
+Runs pose estimation on all of the videos in a directory.
+Make sure that the video directory only contains videos of
+the same camera as the config file.
 
-CAMERA 2:
-
-CAMERA 1:
+Example usage:
+>>> python 05_run_pose_estimation.py --video_dir /home/nely/DLC_annotation/final/cam3/version4/pose_estimation/gizem-new-dataset --config_path /home/nely/DLC_annotation/final/cam3/version4/intact_cam3-Melissa-2021-12-01/config.yaml
 
 """
-
 
 import argparse
 from pathlib import Path
@@ -31,7 +30,9 @@ parser.add_argument(
 args = parser.parse_args()
 
 if args.config_path is None:
-    config_path = '/home/nely/DLC_annotation/final/cam2/cam2-Olivia-2022-03-10/config.yaml'
+    config_path = (
+        "/home/nely/DLC_annotation/final/cam2/cam2-Olivia-2022-03-10/config.yaml"
+    )
 else:
     config_path = args.config_path
 
@@ -46,6 +47,8 @@ if tf.test.is_gpu_available():
     # ]
     videotype = Path(video_list[0]).suffix
     deeplabcut.analyze_videos(config_path, video_list, videotype=videotype)
-    deeplabcut.create_labeled_video(config_path, video_list)#,draw_skeleton = True) #trailpoints=5)
+    deeplabcut.create_labeled_video(
+        config_path, video_list
+    )  # ,draw_skeleton = True) #trailpoints=5)
 else:
-    raise RuntimeError('GPU is not found!')
+    raise RuntimeError("GPU is not found!")

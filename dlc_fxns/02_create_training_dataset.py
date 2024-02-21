@@ -1,3 +1,5 @@
+""" Creates training dataset from the annotated frames. """
+
 import argparse
 
 import deeplabcut
@@ -12,7 +14,7 @@ parser.add_argument(
 parser.add_argument(
     "--aug_type",
     type=str,
-    default='imgaug',
+    default="imgaug",
     help="Image augmentation",
 )
 parser.add_argument(
@@ -24,7 +26,9 @@ parser.add_argument(
 args = parser.parse_args()
 
 if args.config_path is None:
-    config_path = '/home/nely/DLC_annotation/final/cam2/cam2-Olivia-2022-03-10/config.yaml'
+    config_path = (
+        "/home/nely/DLC_annotation/final/cam2/cam2-Olivia-2022-03-10/config.yaml"
+    )
 else:
     config_path = args.config_path
 

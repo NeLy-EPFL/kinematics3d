@@ -1,3 +1,5 @@
+""" Extract frames for annotation from the config file. """
+
 import argparse
 
 import deeplabcut
@@ -24,9 +26,13 @@ parser.add_argument(
 args = parser.parse_args()
 
 if args.config_path is None:
-    config_path = '/home/nely/DLC_annotation/final/cam2/cam2-Olivia-2022-03-10/config.yaml'
+    config_path = (
+        "/home/nely/DLC_annotation/final/cam2/cam2-Olivia-2022-03-10/config.yaml"
+    )
 else:
     config_path = args.config_path
 
 
-deeplabcut.extract_frames(config_path, mode=args.mode, algo=args.algo, userfeedback=True, crop=False)
+deeplabcut.extract_frames(
+    config_path, mode=args.mode, algo=args.algo, userfeedback=True, crop=False
+)
