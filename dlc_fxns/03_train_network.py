@@ -1,4 +1,11 @@
-""" Train the network given in the configuration file. """
+"""
+Train the network given in the configuration file.
+
+Example usage:
+>>> python 03_train_network.py   --config_path /home/nely/DLC_annotation/final/cam3/intact_cam3-Melissa-2021-12-01/config.yaml
+>>> python 03_train_network.py --config_path /home/nely/DLC_annotation/final/cam2/cam2-Olivia-2022-03-10/config.yaml
+>>> python 03_train_network.py --config_path /home/nely/DLC_annotation/final/cam1/intact_cam1-Melissa-2021-12-01/config.yaml
+"""
 
 import argparse
 

@@ -33,3 +33,4 @@ if tf.test.is_gpu_available():
     deeplabcut.evaluate_network(config_path, Shuffles=[1], plotting=args.plot)
 else:
     print("GPU is not found!")
+
