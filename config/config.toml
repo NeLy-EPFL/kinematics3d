@@ -4,7 +4,7 @@ video_extension = 'mp4'
 
 [filter]
 enabled = true
-type = [ "viterbi"]
+type = ["viterbi"]
 score_threshold = 0.05
 n_back = 3
 medfilt = 0
@@ -67,10 +67,6 @@ constraints = [
  ['thorax_coxa_R', 'coxa_femur_R'],
  ['coxa_femur_R', 'femur_tibia_R'],
  ['femur_tibia_R', 'tibia_tarsus_R'],
- ['post_vert_brist_L', 'ant_orb_brist_L'],
- ['ant_orb_brist_L', 'base_anten_L'],
- ['post_vert_brist_R', 'ant_orb_brist_R'],
- ['ant_orb_brist_R', 'base_anten_R'],
  ['base_anten_R', 'base_anten_L'],
  ['thorax_midpoint_tether', 'thorax_wing_L'],
  ['thorax_midpoint_tether', 'thorax_wing_R'],
@@ -82,9 +78,13 @@ constraints_weak = [
  ['tibia_tarsus_R', 'claw_R'],
  ['thorax_wing_L', 'dorsal_humeral_L'],
  ['dorsal_humeral_L', 'ventral_humeral_L'],
+ ['post_vert_brist_L', 'ant_orb_brist_L'],
+ ['ant_orb_brist_L', 'base_anten_L'],
  ['base_anten_L', 'tip_anten_L'],
  ['thorax_wing_R', 'dorsal_humeral_R'],
  ['dorsal_humeral_R', 'ventral_humeral_R'],
+ ['post_vert_brist_R', 'ant_orb_brist_R'],
+ ['ant_orb_brist_R', 'base_anten_R'],
  ['base_anten_R', 'tip_anten_R'],
 #  ['ant_orb_brist_R', 'labellum_tip'],
 #  ['ant_orb_brist_L', 'labellum_tip'],

@@ -1,4 +1,5 @@
 """ Script to run DeepLabCut on all data in a directory. """
+
 import re
 import logging
 from pathlib import Path
@@ -10,12 +11,15 @@ from kinematics3d.constants import KP_NAME_CHANGES, DLC_CONFIG_PATH
 
 # Check the OS to decide the NAS folder.
 if platform in ("linux", "linux2"):
+    # FIXME
     SOURCE = "/mnt/nas2/GO/7cam/"
 elif platform == "darwin":
     SOURCE = "/Volumes/data2/GO/7cam/"
 
 # Change the logging level here
-logging.basicConfig(level=logging.INFO, format=" %(asctime)s - %(levelname)s- %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format=" %(asctime)s - %(levelname)s- %(message)s"
+)
 
 
 def search_string(word: str, pattern: List[str]) -> bool:
@@ -71,7 +75,8 @@ def get_folder_names(date_upper: int, date_lower: int, genotype: str, **kwargs) 
                 directories_to_add += [
                     d.as_posix() + "\n"
                     for d in directories
-                    if search_string(d.parts[-1], exps_to_include) and not d.parts[-1].startswith(".")
+                    if search_string(d.parts[-1], exps_to_include)
+                    and not d.parts[-1].startswith(".")
                 ]
 
     if export_path is not None:
@@ -86,7 +91,7 @@ def get_video_paths(
     input_dir: str,
     camera_id: int,
     export_path: Optional[str] = None,
-    overwrite: Optional[bool] = False
+    overwrite: Optional[bool] = False,
 ) -> List:
     """Writes paths of experimental folders in a txt file given.
 
@@ -140,7 +145,7 @@ def run_dlc(
     camera_id: int,
     paths: List[str],
     show_kp: Optional[bool] = False,
-    video_type: Optional[str] = "mp4"
+    video_type: Optional[str] = "mp4",
 ) -> None:
     """Runs DLC on the videos.
 
@@ -161,25 +166,29 @@ def run_dlc(
         video_path = p.rstrip("\n")
         pose_2d_path = Path(video_path).parents[1] / "pose-2d"
         logging.info(f"Running DLC on {video_path}")
-        logging.info(f'''Config path is: {DLC_CONFIG_PATH[f"camera_{camera_id}"]}''')
+        logging.info(f"""Config path is: {DLC_CONFIG_PATH[f"camera_{camera_id}"]}""")
 
         dlc.analyze_videos(
             DLC_CONFIG_PATH[f"camera_{camera_id}"],
             [video_path],
             destfolder=pose_2d_path,
-            videotype=video_type)
+            videotype=video_type,
+        )
         if show_kp:
             dlc.create_labeled_video(
                 DLC_CONFIG_PATH[f"camera_{camera_id}"],
                 [video_path],
                 destfolder=pose_2d_path,
-                videotype=video_type)
+                videotype=video_type,
+            )
 
         # rename the pose estimation file
-        list(pose_2d_path.glob(f"camera_{camera_id}*.h5"))[0].rename(pose_2d_path / f"camera_{camera_id}.h5")
+        list(pose_2d_path.glob(f"camera_{camera_id}*.h5"))[0].rename(
+            pose_2d_path / f"camera_{camera_id}.h5"
+        )
 
         if camera_id in [1, 4, 5]:
             change_kp_names(
                 pose_2d_path / f"camera_{camera_id}.h5",
-                KP_NAME_CHANGES[f"camera_{camera_id}"]
+                KP_NAME_CHANGES[f"camera_{camera_id}"],
             )
