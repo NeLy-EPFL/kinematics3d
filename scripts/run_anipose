@@ -12,61 +12,60 @@ from kinematics3d.anipose_pipeline import run_pipeline_from_txt
 
 
 def parse_args():
-    """ Argument parser. """
+    """Argument parser."""
     parser = argparse.ArgumentParser(
-        description='Pipeline to automatize Anipose run',
+        description="Pipeline to automatize Anipose run",
         formatter_class=(
-            lambda prog:
-            argparse.HelpFormatter(prog, max_help_position=50)
+            lambda prog: argparse.HelpFormatter(prog, max_help_position=50)
         ),
     )
     parser.add_argument(
-        '-txt',
-        '--txt_dir',
+        "-txt",
+        "--txt_dir",
         type=str,
         default=None,
-        help='Input text directory',
+        help="Input text directory",
     )
     parser.add_argument(
-        '--filter_2d',
+        "--filter_2d",
         default=False,
-        action='store_true',
-        help='Filter 2D poses',
+        action="store_true",
+        help="Filter 2D poses",
     )
     parser.add_argument(
-        '--calibrate',
+        "--calibrate",
         default=False,
-        action='store_true',
-        help='Calibrate using the animal data',
+        action="store_true",
+        help="Calibrate using the animal data",
     )
     parser.add_argument(
-        '--triangulate',
+        "--triangulate",
         default=False,
-        action='store_true',
-        help='Triangulate 2D poses',
+        action="store_true",
+        help="Triangulate 2D poses",
     )
     parser.add_argument(
-        '--removecalib',
+        "--removecalib",
         default=False,
-        action='store_true',
-        help='Remove existing calibration folder',
+        action="store_true",
+        help="Remove existing calibration folder",
     )
     parser.add_argument(
-        '--remove3d',
+        "--remove3d",
         default=False,
-        action='store_true',
-        help='Remove existing 3D poses',
+        action="store_true",
+        help="Remove existing 3D poses",
     )
     parser.add_argument(
-        '--remove2dfilt',
+        "--remove2dfilt",
         default=False,
-        action='store_true',
-        help='Remove existing filtered 2D poses',
+        action="store_true",
+        help="Remove existing filtered 2D poses",
     )
     return parser.parse_args()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     args = parse_args()
 
@@ -77,5 +76,5 @@ if __name__ == '__main__':
         triangulate=args.triangulate,
         remove_calib=args.removecalib,
         remove_pose3d=args.remove3d,
-        remove_pose2dfilt=args.remove2dfilt
+        remove_pose2dfilt=args.remove2dfilt,
     )

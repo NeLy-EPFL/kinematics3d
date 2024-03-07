@@ -113,14 +113,15 @@ if __name__ == "__main__":
         delete = input("Existing pose-2d folders will be deleted! Are you sure? [y/n]")
         if delete.lower() == "y":
             for exp in exp_dirs:
+                exp = exp.strip()
                 dest_folders = Path(exp).rglob(f"*/pose-2d")
+
                 for dest_folder in dest_folders:
                     if dest_folder.is_dir():
                         logging.info(
                             f"Pose folder exists, deleting the directory {dest_folder.as_posix()}"
                         )
-                        shutil.rmtree(dest_folder)
-
+                        shutil.rmtree(dest_folder, ignore_errors=True)
     if args.pose2d:
         for cam_id in range(1, 6):
             all_dict = []
