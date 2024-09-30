@@ -195,13 +195,13 @@ def run_pipeline_from_txt(
     for line in open(txt_dir):
         p_name = Path(line.rstrip())
         parts = p_name.parts
-        if len(parts) < 7:
-            raise IndexError(
-                """
-                Directory should have at least 7 parts.
-                Example: ('/','mnt','nas','GO','7cam','220504_aJO-GAL4xUAS-CsChr', 'Fly001')
-                """
-            )
+        # if len(parts) < 7:
+        #     raise IndexError(
+        #         """
+        #         Directory should have at least 7 parts.
+        #         Example: ('/','mnt','nas','GO','7cam','220504_aJO-GAL4xUAS-CsChr', 'Fly001')
+        #         """
+        #     )
 
         # If child directory is given, we take the parent directory.
         fly_index = [i for i, word in enumerate(parts) if "Fly" in word]

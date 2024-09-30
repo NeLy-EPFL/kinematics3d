@@ -1,8 +1,6 @@
 """ Code to change column names in dataframes. """
 from pathlib import Path
 
-import kinematics3d
-
 KP_NAME_CHANGES = {
     'camera_1':
     {
@@ -39,7 +37,7 @@ KP_NAME_CHANGES = {
         'femur_tibia_L': 'femur_tibia_R',
         'coxa_femur_R': 'coxa_femur_L',
         'coxa_femur_L': 'coxa_femur_R',
-        # 'thorax_coxa_R': 'thorax_coxa_L',
+        'thorax_coxa_R': 'thorax_coxa_L', # why was this commented out?
         'thorax_coxa_L': 'thorax_coxa_R',
         'labellum_tip': 'labellum_tip',
         'maxillary_palp_L': 'maxillary_palp_R',
@@ -84,21 +82,11 @@ KP_NAME_CHANGES = {
     }
 }
 
-current_dir = Path(kinematics3d.__file__)
-
-# DLC_CONFIG_PATH = {
-#     'camera_1': current_dir.parents[1] / 'dlc-networks' / 'camera_1/config.yaml',
-#     'camera_2': current_dir.parents[1] / 'dlc-networks' / 'camera_2/config.yaml',
-#     'camera_3': current_dir.parents[1] / 'dlc-networks' / 'camera_3/config.yaml',
-#     'camera_4': current_dir.parents[1] / 'dlc-networks' / 'camera_2/config.yaml',
-#     'camera_5': current_dir.parents[1] / 'dlc-networks' / 'camera_1/config.yaml',
-# }
-
-#FIXME: change the hard-coded paths
+package_root_dir = Path(__file__).parent.parent
 DLC_CONFIG_PATH = {
-    'camera_1': Path('/home/nely/DLC_annotation/final/cam1/intact_cam1-Melissa-2021-12-01') / 'config.yaml',
-    'camera_2': Path('/home/nely/DLC_annotation/final/cam2/cam2-Olivia-2022-03-10') / 'config.yaml',
-    'camera_3': Path('/home/nely/DLC_annotation/final/cam3/intact_cam3-Melissa-2021-12-01') / 'config.yaml',
-    'camera_4': Path('/home/nely/DLC_annotation/final/cam2/cam2-Olivia-2022-03-10') / 'config.yaml',
-    'camera_5': Path('/home/nely/DLC_annotation/final/cam1/intact_cam1-Melissa-2021-12-01') / 'config.yaml',
+    'camera_1': package_root_dir / '/DLC_annotation/final/cam1/intact_cam1-Melissa-2021-12-01/config.yaml',
+    'camera_2': package_root_dir / '/DLC_annotation/final/cam2/cam2-Olivia-2022-03-10/config.yaml',
+    'camera_3': package_root_dir / '/DLC_annotation/final/cam3/intact_cam3-Melissa-2021-12-01/config.yaml',
+    'camera_4': package_root_dir / '/DLC_annotation/final/cam2/cam2-Olivia-2022-03-10/config.yaml',
+    'camera_5': package_root_dir / '/DLC_annotation/final/cam1/intact_cam1-Melissa-2021-12-01/config.yaml',
 }

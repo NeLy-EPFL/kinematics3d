@@ -3,18 +3,10 @@
 import re
 import logging
 from pathlib import Path
-from sys import platform
 from typing import List, Optional
 
 from kinematics3d.utils import change_kp_names
 from kinematics3d.constants import KP_NAME_CHANGES, DLC_CONFIG_PATH
-
-# Check the OS to decide the NAS folder.
-if platform in ("linux", "linux2"):
-    # FIXME
-    SOURCE = "/mnt/nas2/GO/7cam/"
-elif platform == "darwin":
-    SOURCE = "/Volumes/data2/GO/7cam/"
 
 # Change the logging level here
 logging.basicConfig(
@@ -43,11 +35,13 @@ def search_string(word: str, pattern: List[str]) -> bool:
     return bool(re.search("|".join(pattern), word))
 
 
-def get_folder_names(date_upper: int, date_lower: int, genotype: str, **kwargs) -> List:
+def get_folder_names(root_dir: str, date_upper: int, date_lower: int, genotype: str, **kwargs) -> List:
     """Gets folders fitting the given date interval, genotypo, and experiment type.
 
     Parameters
     ----------
+    root_dir : str
+        Directory where all experimental data are stored.
     date_upper : int
         Latest date that the experiments are done.
     date_lower : int
@@ -67,7 +61,7 @@ def get_folder_names(date_upper: int, date_lower: int, genotype: str, **kwargs) 
 
     directories_to_add = []
 
-    for folder_name in Path(SOURCE).iterdir():
+    for folder_name in Path(root_dir).iterdir():
         if genotype.lower() in folder_name.as_posix().lower():
             experiment_date = int(folder_name.parts[-1].split("_")[0])
             if date_upper >= experiment_date >= date_lower:
@@ -78,7 +72,6 @@ def get_folder_names(date_upper: int, date_lower: int, genotype: str, **kwargs) 
                     if search_string(d.parts[-1], exps_to_include)
                     and not d.parts[-1].startswith(".")
                 ]
-
     if export_path is not None:
         with open(export_path, "w+") as f:
             f.write("".join(directories_to_add))
