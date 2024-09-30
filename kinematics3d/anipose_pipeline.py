@@ -4,6 +4,7 @@
     - Camera calibration based on the tracked key points.
     - Triangulation of multi-view 2D poses.
 """
+
 import os
 from typing import Optional
 from pathlib import Path
@@ -117,7 +118,10 @@ def check_pose_folder_exists(main_path: Path, folder_name: str) -> None:
             logging.info(
                 f"Pose folder exists, deleting the directory {pose_dir_name.as_posix()}"
             )
-            shutil.rmtree(pose_dir_name)
+            try:
+                shutil.rmtree(pose_dir_name)
+            except:
+                print("not found")
 
 
 def anipose_pipeline(
@@ -200,9 +204,10 @@ def run_pipeline_from_txt(
             )
 
         # If child directory is given, we take the parent directory.
-        if parts[0] == "/":
-            new_parts = parts[:-1]
-        else:
+        fly_index = [i for i, word in enumerate(parts) if "Fly" in word]
+        new_parts = parts[: int(fly_index[-1]) + 1]
+
+        if len(fly_index) > 1:
             raise ValueError(f"Directory {p_name} is faulty!\nPlease, check it again.")
 
         new_path = Path(*new_parts)

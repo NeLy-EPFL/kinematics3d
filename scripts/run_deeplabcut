@@ -2,7 +2,7 @@
 """ Script to run deeplabcut.
     Example usage:
     - If you want to create a directory txt file then
-    >>> run_deeplabcut --date_lower 220424 --date_upper 220525 --genotype aJO-GAL4xUAS-CsChr --export_path dirs.txt --include Beh RLF
+    >>> run_deeplabcut --date_lower 240303 --date_upper 240320 --genotype aJO-GAL4xUAS-CsChr --export_path dirs.txt --include Beh RLF
     - If you want to run DLC, just append --pose2d to the above command
     - If you have the txt file ready, then you can skip the specs and run:
     >>> run_deeplabcut --txt_dir dirs.txt --pose2d
