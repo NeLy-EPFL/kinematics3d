@@ -2,7 +2,6 @@
 import logging
 import matplotlib.pyplot as plt
 from matplotlib import animation
-import mpl_toolkits.mplot3d.axes3d as p3
 from mycolorpy import colorlist as mcp
 
 # Change the logging level here
@@ -19,8 +18,8 @@ def plot_3d_points(points3d, key_points, t=0, **kwargs):
     export_path = kwargs.get('export_path', None)
 
     fig = plt.figure(figsize=(5, 5))
-    ax3d = p3.Axes3D(fig)
-    ax3d.view_init(azim=azim, elev=elev)
+    ax3d = fig.add_subplot(111, projection='3d')
+    # ax3d.view_init(azim=azim, elev=elev)
 
     # color_map_right = mcp.gen_color(cmap="RdPu", n=len(key_points))
     # color_map_left = mcp.gen_color(cmap="BuGn", n=len(key_points))
@@ -96,7 +95,7 @@ def animate_3d_points(points3d, key_points, export_path, fps=100,
     azim = kwargs.get('azim', 0)  # -21)
     elev = kwargs.get('elev', 10)  # 20)
     fig = plt.figure()
-    ax3d = p3.Axes3D(fig)
+    ax3d = fig.add_subplot(111, projection='3d')
     ax3d.view_init(azim=azim, elev=elev)
 
     # color_map_right = mcp.gen_color(cmap="RdPu", n=len(key_points) + 3)
