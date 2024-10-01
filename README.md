@@ -11,25 +11,12 @@ After the download is complete, navigate to the folder:
 ```bash
 $ cd kinematics3d
 ```
-In this folder, run the following commands to create a virtual environment and activate it:
+In this folder, run the following commands to create a virtual environment with kinematics3d and its required dependencies and activate it:
 ```bash
-$ conda create -n kinematics3d python=3.8
+$ conda env create -f environment.yml
 $ conda activate kinematics3d
 ```
-Finally, install all the dependencies by running:
-```bash
-$ pip install -e .
-```
-Note that, depending on your GPU, the installation of DeepLabCut and Anipose may require some extra tweaks in the installation.
-
-**Note:** Anipose is built on a specific version, if you encounter any error like `AttributeError: module 'cv2' has no attribute 'imread'`
-```bash
-$ pip uninstall python-opencv opencv-contrib-python opencv-python
-```
-And then run the following:
-```bash
-$ pip install opencv-contrib-python==4.5.5.64
-```
+You should now be able to run the scripts mentioned below!
 
 ## Summary of scripts
 - ```animate_3d``` : script to animate 3D poses, set the keypoints to be drawn in `KEYPOINTS_DICT` in main. Example usage:

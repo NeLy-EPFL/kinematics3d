@@ -3,7 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.9
+  - python
   - imutils
   - toml
   - pandas
@@ -11,8 +11,9 @@ dependencies:
   - tensorflow=2.10 # deeplabcut only supports up to tensorflow 2.10, but if it gets pulled in automatically through pip the GPU support didn't work
   - scipy=1.10 # otherwise we get this error https://github.com/lambdaloop/anipose/issues/127
   - pip:
-    - anipose==1.0.1 # this needs to be 1.1.0 or we get this error https://github.com/lambdaloop/anipose/issues/111 (or downgrade pandas)
-    - aniposelib==0.4.3
-    - opencv-contrib-python==4.5.5.64
+    # the latest version of anipose fixes https://github.com/lambdaloop/anipose/issues/111 and https://github.com/lambdaloop/anipose/issues/141
+    # with Gizem's changes on top which fixes that different cameras only detect a subset of the joints https://github.com/lambdaloop/anipose/pull/93
+    - git+https://github.com/Dominic-Dallosto/anipose 
     - mycolorpy
-    - deeplabcut[tf]
+    - deeplabcut[tf]==2.3.10
+    - -e .
