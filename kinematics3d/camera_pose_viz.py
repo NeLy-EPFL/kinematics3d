@@ -14,7 +14,7 @@ class CameraPoseVisualizer:
         azim = kwargs.get('azim', -90)
         elev = kwargs.get('elev', -30)
         self.fig = plt.figure(figsize=(18, 7))
-        self.ax = self.fig.gca(projection='3d')
+        self.ax = self.fig.add_subplot(111, projection='3d')
         self.ax.view_init(azim=azim, elev=elev)
         self.ax.set_aspect("auto")
         self.ax.set_xlim(xlim)
