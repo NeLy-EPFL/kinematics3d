@@ -1,0 +1,21 @@
+name: kinematics3d_old
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - imutils=0.5.4
+  - toml=0.10.2
+  - pandas=2.2.3
+  - numpy=1.26.4
+  - tensorflow=2.10 # deeplabcut only supports up to tensorflow 2.10, but if it gets pulled in automatically through pip the GPU support didn't work
+  - scipy=1.10 # otherwise we get this error https://github.com/lambdaloop/anipose/issues/127
+  - pip:
+    # the latest version of anipose fixes https://github.com/lambdaloop/anipose/issues/111 and https://github.com/lambdaloop/anipose/issues/141
+    # with Gizem's changes on top which fixes that different cameras only detect a subset of the joints https://github.com/lambdaloop/anipose/pull/93
+    # - git+https://github.com/Dominic-Dallosto/anipose 
+    - anipose==1.0.1
+    - aniposelib==0.4.3
+    - opencv-contrib-python==4.5.5.64
+    - mycolorpy==1.5.1
+    - deeplabcut[tf]==2.3.10
