@@ -13,10 +13,21 @@ $ cd kinematics3d
 ```
 In this folder, run the following commands to create a virtual environment with kinematics3d and its required dependencies and activate it:
 ```bash
-$ conda env create -f environment.yml
+$ conda create -n kinematics3d python==3.9
 $ conda activate kinematics3d
+$ pip install -e .
 ```
 You should now be able to run the scripts mentioned below!
+
+## Folder structure
+- ```calibration/``` : Contains a configuration file (e.g., intrinsic and extrinsic parameters) for the camera calibration in SeptaCam setup. See `calibration_init.png` for how cameras are placed.
+- ```charuco_board/``` : Contains the details and design of the charuco board used for calibration. See [here](https://github.com/NeLy-EPFL/kinematics3d/wiki) for more details.
+- ```config/``` : Contains the configuration files for the Anipose pipeline. See [here](https://github.com/NeLy-EPFL/kinematics3d/wiki/Anipose) for a detailed explanation.
+- ```dlc_fxns/``` : Contains the functions to automate the run of DeepLabCut.
+- ```imgs/``` : Some images used in the Wiki pages.
+- ```kinematics3d/``` : Contains the main functions. Please note that this pipeline is very specific to our lab's folder structure and naming conventions and might not be directly applicable to other datasets! So please test things out before running on your data.
+- ```sample/``` : a minimal example of the folder structure and data to test the pipeline.
+- ```scripts/``` : Contains the scripts to run the pipeline. The above warning applies here as well.
 
 ## Summary of scripts
 - ```animate_3d``` : script to animate 3D poses, set the keypoints to be drawn in `KEYPOINTS_DICT` in main. Example usage:
@@ -40,7 +51,7 @@ You should now be able to run the scripts mentioned below!
     ```
     Note that if such txt does not exist you first need to launch run_deeplabcut to create the file.
 
-- ```viz_cam_locations```:vVisualize the location of the cameras from the calibration file.
+- ```viz_cam_locations```: Visualize the location of the cameras from the calibration file.
     Ecample usage:
     ```bash
     $ viz_cam_locations -cp ../calibration/calibration.toml
