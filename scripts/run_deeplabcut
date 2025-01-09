@@ -11,10 +11,11 @@
     This function assumes that you will have only one 2d pose file under the name of "camera_{id}.h5".
     In case you have more than one h5 files for the same camera, that will create problems.
 """
+import sys
+import shutil
+import logging
 import argparse
 from pathlib import Path
-import logging
-import shutil
 
 from kinematics3d.utils import load_txt
 from kinematics3d.pose2d import get_folder_names, get_video_paths, run_dlc
@@ -32,6 +33,13 @@ def parse_args():
         formatter_class=(
             lambda prog: argparse.HelpFormatter(prog, max_help_position=50)
         ),
+    )
+    parser.add_argument(
+        "-s",
+        "--source",
+        type=str,
+        default=None,
+        help="Source directory of the data.",
     )
     parser.add_argument(
         "-txt",
@@ -94,12 +102,22 @@ def parse_args():
     return parser.parse_args()
 
 
+
+
 if __name__ == "__main__":
     """Main."""
     args = parse_args()
 
+    if args.source is not None:
+        # Check the OS to decide the NAS folder.
+        if sys.platform in ("linux", "linux2"):
+            source_dir = "/mnt/nas2/GO/7cam/"
+        elif sys.platform == "darwin":
+            source_dir = "/Volumes/data2/GO/7cam/"
+
     if args.txt_dir is None:
         exp_dirs = get_folder_names(
+            root_dir=source_dir,
             date_upper=args.date_upper,
             date_lower=args.date_lower,
             genotype=args.genotype,
