@@ -8,20 +8,20 @@ with open('README.md') as readme_file:
     README = readme_file.read()
 
 REQUIREMENTS = [
-    'anipose>=1.1.13',
-    'aniposelib>=0.7.0',
+    'anipose @ git+https://github.com/gizemozd/anipose.git',
+    'aniposelib @ git+https://github.com/gizemozd/aniposelib.git',
     'opencv-contrib-python>=4.10.0.84',
-    'imutils',
-    'mycolorpy',
-    'toml',
-    'pandas',
-    'numpy'
+    'imutils==0.5.4',
+    'mycolorpy==1.5.1',
+    'toml==0.10.2',
+    'pandas==2.2.3',
+    'numpy==1.26.4'
   ]
 
 setup(
     author="Gizem Ozdil",
     author_email='pembe.ozdil@epfl.ch',
-    python_requires='>=3.6',
+    python_requires='>=3.9',
     description="Pipeline for calibration, triangulation, and data processing using DeepLabCut and Anipose.",
     install_requires=REQUIREMENTS,
     license="MIT license",
