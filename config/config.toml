@@ -14,8 +14,8 @@ multiprocessing = true
 
 [pipeline]
 videos_raw = "videos"
-calibration_videos = "/home/nely/tracking_anipose/kinematics3d/calibration"
-calibration_results = "/home/nely/tracking_anipose/kinematics3d/calibration"
+calibration_videos = "/home/ozdil/Projects/kinematics3d/calibration"
+calibration_results = "/home/ozdil/Projects/kinematics3d/calibration"
 pose_2d = 'pose-2d'
 pose_2d_filter = 'pose-2d-filtered'
 pose_3d = 'pose-3d'
@@ -36,7 +36,7 @@ board_marker_length = 0.225 # mm
 board_square_side_length = 0.300 # mm
 animal_calibration = true
 fisheye = false
-calibration_init = '/home/nely/tracking_anipose/kinematics3d/calibration/calibration_init.toml'
+calibration_init = '/home/ozdil/Projects/kinematics3d/calibration/calibration_init.toml'
 
 [manual_verification]
 manually_verify = false
