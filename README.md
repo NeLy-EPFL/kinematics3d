@@ -13,7 +13,7 @@ $ cd kinematics3d
 ```
 In this folder, run the following commands to create a virtual environment with kinematics3d and its required dependencies and activate it:
 ```bash
-$ conda create -n kinematics3d python==3.9
+$ conda create -n kinematics3d python==3.8
 $ conda activate kinematics3d
 $ pip install -e .
 ```
@@ -44,6 +44,9 @@ You should now be able to run the scripts mentioned below!
     ```bash
     $ run_deeplabcut --txt_dir dirs.txt --pose2d
     ```
+
+    **NOTE:** Performing 2D pose estimation requires the trained DLC networks, which can be downloaded [here](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/ACNHMP).
+
 - ```run_anipose```: script to run anipose.
     Example use:
     ```bash
@@ -56,3 +59,5 @@ You should now be able to run the scripts mentioned below!
     ```bash
     $ viz_cam_locations -cp ../calibration/calibration.toml
     ```
+
+- ```run_pipeline.sample.sh```: A sample script to run the pipeline on a minimal dataset. You can use this as a template to run the pipeline on your data.
