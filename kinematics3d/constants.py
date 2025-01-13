@@ -84,8 +84,9 @@ KP_NAME_CHANGES = {
     }
 }
 
-package_root_dir = Path(__file__).parent.parent
+package_root_dir = Path(kinematics3d.__file__).parent.parent
 
+# DLC_annotation should be under kinematics3d folder
 DLC_CONFIG_PATH = {
     'camera_1': package_root_dir / 'DLC_annotation/final/cam1/intact_cam1-Melissa-2021-12-01' / 'config.yaml',
     'camera_2': package_root_dir / 'DLC_annotation/final/cam2/cam2-Olivia-2022-03-10' / 'config.yaml',
