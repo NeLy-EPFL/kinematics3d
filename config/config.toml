@@ -56,7 +56,7 @@ triangulate = true
 cam_regex = 'camera_([0-9])'
 axes = [['y', 'dorsal_humeral_R', 'dorsal_humeral_L'], ['z', 'ventral_humeral_L', 'dorsal_humeral_L']]
 reference_point = 'thorax_midpoint_tether'
-cam_align = "3"
+cam_align = "2"
 ransac = false
 # make true to filter 3d poses
 optim = true
@@ -99,6 +99,9 @@ reproj_error_threshold = 4 #5
 score_threshold = 0.4
 n_deriv_smooth = 3
 
+[cameras.0]
+ROI_FULL = [ 0, 0, 1920, 1200,]
+offset = [480, 360, 1440, 840]
 
 [cameras.1]
 ROI_FULL = [ 0, 0, 1920, 1200,]
@@ -113,9 +116,5 @@ ROI_FULL = [ 0, 0, 1920, 1200,]
 offset = [480, 360, 1440, 840]
 
 [cameras.4]
-ROI_FULL = [ 0, 0, 1920, 1200,]
-offset = [480, 360, 1440, 840]
-
-[cameras.5]
 ROI_FULL = [ 0, 0, 1920, 1200,]
 offset = [480, 360, 1440, 840]

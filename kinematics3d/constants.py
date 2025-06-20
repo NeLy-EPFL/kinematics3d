@@ -4,7 +4,7 @@ from pathlib import Path
 import kinematics3d
 
 KP_NAME_CHANGES = {
-    'camera_1':
+    'camera_0':
     {
         'post_subgen_area': 'post_subgen_area_L',
         'post_vert_brist': 'post_vert_brist_L',
@@ -29,7 +29,7 @@ KP_NAME_CHANGES = {
         'thorax_wing_L': 'thorax_wing_L',
         'thorax_midpoint_tether': 'thorax_midpoint_tether',
     },
-    'camera_4':
+    'camera_3':
     {
         'claw_R': 'claw_L',
         'claw_L': 'claw_R',
@@ -57,7 +57,7 @@ KP_NAME_CHANGES = {
         'thorax_wing_L': 'thorax_wing_R',
         'thorax_midpoint_tether': 'thorax_midpoint_tether',
     },
-    'camera_5':
+    'camera_4':
     {
         'post_subgen_area': 'post_subgen_area_R',
         'post_vert_brist': 'post_vert_brist_R',
@@ -88,9 +88,9 @@ package_root_dir = Path(kinematics3d.__file__).parent.parent
 
 # DLC_annotation should be under kinematics3d folder
 DLC_CONFIG_PATH = {
-    'camera_1': package_root_dir / 'DLC_annotation/final/cam1/intact_cam1-Melissa-2021-12-01' / 'config.yaml',
-    'camera_2': package_root_dir / 'DLC_annotation/final/cam2/cam2-Olivia-2022-03-10' / 'config.yaml',
-    'camera_3': package_root_dir / 'DLC_annotation/final/cam3/intact_cam3-Melissa-2021-12-01' / 'config.yaml',
-    'camera_4': package_root_dir / 'DLC_annotation/final/cam2/cam2-Olivia-2022-03-10' / 'config.yaml',
-    'camera_5': package_root_dir / 'DLC_annotation/final/cam1/intact_cam1-Melissa-2021-12-01' / 'config.yaml',
+    'camera_0': package_root_dir / 'DLC_annotation/final/cam1/intact_cam1-Melissa-2021-12-01' / 'config.yaml',
+    'camera_1': package_root_dir / 'DLC_annotation/final/cam2/cam2-Olivia-2022-03-10' / 'config.yaml',
+    'camera_2': package_root_dir / 'DLC_annotation/final/cam3/intact_cam3-Melissa-2021-12-01' / 'config.yaml',
+    'camera_3': package_root_dir / 'DLC_annotation/final/cam2/cam2-Olivia-2022-03-10' / 'config.yaml',
+    'camera_4': package_root_dir / 'DLC_annotation/final/cam1/intact_cam1-Melissa-2021-12-01' / 'config.yaml',
 }

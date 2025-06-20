@@ -181,7 +181,7 @@ def run_dlc(
             pose_2d_path / f"camera_{camera_id}.h5"
         )
 
-        if camera_id in [1, 4, 5]:
+        if camera_id in [0, 3, 4]:
             change_kp_names(
                 pose_2d_path / f"camera_{camera_id}.h5",
                 KP_NAME_CHANGES[f"camera_{camera_id}"],
