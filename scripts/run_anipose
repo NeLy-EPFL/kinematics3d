@@ -10,6 +10,9 @@
 import argparse
 from kinematics3d.anipose_pipeline import run_pipeline_from_txt
 
+import warnings
+
+warnings.filterwarnings("ignore", module="pandas")
 
 def parse_args():
     """Argument parser."""
