@@ -163,16 +163,16 @@ def run_dlc(
         logging.info(f"""Config path is: {DLC_CONFIG_PATH[f"camera_{camera_id}"]}""")
 
         dlc.analyze_videos(
-            DLC_CONFIG_PATH[f"camera_{camera_id}"],
-            [video_path],
-            destfolder=pose_2d_path,
+            config=DLC_CONFIG_PATH[f"camera_{camera_id}"],
+            videos=[video_path],
+            destfolder=pose_2d_path.as_posix(),
             videotype=video_type,
         )
         if show_kp:
             dlc.create_labeled_video(
-                DLC_CONFIG_PATH[f"camera_{camera_id}"],
-                [video_path],
-                destfolder=pose_2d_path,
+                config=DLC_CONFIG_PATH[f"camera_{camera_id}"],
+                videos=[video_path],
+                destfolder=pose_2d_path.as_posix(),
                 videotype=video_type,
             )
 
